@@ -16,9 +16,9 @@ const Header = ({ movies }) => {
         slidesPerView={1}
         autoplay={{ delay: 3000 }}
       >
-        {movies.map((movie, i) => {
+        {movies.map((movie) => {
           return (
-            <SwiperSlide key={`${movie.id}`}>
+            <SwiperSlide key={movie.id}>
               <div
                 className={classes["slide-item"]}
                 style={{

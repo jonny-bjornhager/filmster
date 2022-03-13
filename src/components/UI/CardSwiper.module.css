@@ -1,0 +1,22 @@
+.card-swiper {
+  color: #fff;
+  width: 100%;
+}
+
+.card-swiper h3 {
+  font-weight: 400;
+
+  font-size: 2.5rem;
+  margin: 1rem 0;
+}
+
+.card-swiper img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .card-swiper h3 {
+    font-size: 2rem;
+  }
+}
