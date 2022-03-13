@@ -1,7 +1,5 @@
 # Filmster
 
-======
-
 ## What is this?
 
 This app is a tool where the user can search for movies or tv shows and find their respective rating, year released, read the movie plot and watch a trailer (if such exists).
