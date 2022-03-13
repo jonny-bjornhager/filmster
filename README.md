@@ -6,7 +6,7 @@ This app is a tool where the user can search for movies or tv shows and find the
 
 ## Tools used?
 
-This project is still under development, but the tools and libraries used are:
+This project is still under development, but the tools and libraries currently used are:
 
 ### STACK
 
