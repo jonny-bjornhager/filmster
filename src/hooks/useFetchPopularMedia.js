@@ -5,17 +5,17 @@ export const useFetchPopularMedia = (url) => {
   const [isLoading, setIsLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  //  Fetch popular movies or shows from the
+  // url given to the hook
   const fetchPopular = useCallback(async () => {
     setIsLoading(true);
 
     try {
       const request = await fetch(url);
-
       const { results } = await request.json();
 
       // Filter movies that has no backdrop and map
       // through movies array
-
       return results
         .filter((item) => item.backdrop_path !== null)
         .map((item) => {
@@ -31,8 +31,6 @@ export const useFetchPopularMedia = (url) => {
             rating: item.vote_average,
           };
         });
-
-      // Catch errors
     } catch (error) {
       console.log(error.message);
       setErrorMessage(error.message);
@@ -40,6 +38,8 @@ export const useFetchPopularMedia = (url) => {
   }, [url]);
 
   useEffect(() => {
+    // Check if component is mounted to prevent
+    // memory leaks
     let isMounted = true;
     fetchPopular().then((data) => {
       if (isMounted) {
