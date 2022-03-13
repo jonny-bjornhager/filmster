@@ -1,0 +1,58 @@
+/* Default Styles for buttons */
+
+.btn {
+  border: none;
+  font-size: 1.6rem;
+  padding: 0.5em 1em;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.btn a {
+  text-decoration: none;
+  color: var(--clr-white);
+
+  width: 100%;
+  height: 100%;
+}
+
+/* Variants */
+.btn-red-glow {
+  font-size: 2rem;
+  background-color: #c21c1c;
+  color: var(--clr-white);
+  box-shadow: 0 0 2rem 0.5rem #96161693;
+  width: fit-content;
+}
+
+.btn-red {
+  background-color: #c21c1c;
+  color: white;
+  border-radius: 0;
+}
+
+.btn-search-category {
+  background-color: rgb(43, 43, 43);
+
+  background-size: 210% 100%;
+  background-position: right bottom;
+  color: white;
+  font-size: 3rem;
+  padding: 0.4em;
+  width: 50%;
+
+  border-radius: 3px;
+  transition: all 0.3s ease-out;
+}
+
+@media screen and (max-width: 768px) {
+  .btn {
+    font-size: 1.6rem;
+  }
+
+  .btn-red-glow {
+    width: 100%;
+  }
+}
