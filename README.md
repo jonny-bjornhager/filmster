@@ -1,14 +1,12 @@
 # Filmster
 
-======
-
 ## What is this?
 
 This app is a tool where the user can search for movies or tv shows and find their respective rating, year released, read the movie plot and watch a trailer (if such exists).
 
 ## Tools used?
 
-This project is still under development, but the tools and libraries used are:
+This project is still under development, but the tools and libraries currently used are:
 
 ### STACK
 
