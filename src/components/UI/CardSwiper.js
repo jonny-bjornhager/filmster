@@ -10,7 +10,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 const CardSwiper = ({ type, fetchUrl }) => {
-  const { media: movies, isLoading } = useFetchPopularMedia(fetchUrl);
+  const { media: movies } = useFetchPopularMedia(fetchUrl);
   const [popularType, setPopularType] = useState("");
 
   useEffect(() => {
