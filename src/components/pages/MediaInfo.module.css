@@ -1,0 +1,183 @@
+.media {
+  width: 100%;
+  color: #fff;
+}
+
+.media-backdrop {
+  height: 47vh;
+  width: 100%;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  animation: drop-in 0.5s ease;
+}
+
+@keyframes drop-in {
+  0% {
+    transform: translateY(-30%);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: translateY(2%);
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.media-backdrop::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(3, 3, 3, 0.8) 80%,
+    rgb(3, 3, 3)
+  );
+  pointer-events: none;
+
+  backface-visibility: hidden;
+}
+
+.play {
+  background-color: transparent;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 2rem;
+  height: 5rem;
+  width: 5rem;
+  border: 0.5rem solid #fff;
+  border-radius: 50%;
+  z-index: 4;
+}
+
+.play:hover {
+  cursor: pointer;
+  color: rgb(128, 128, 128);
+  border-color: rgb(128, 128, 128);
+}
+
+.star {
+  color: rgb(255, 230, 0);
+  width: 1.6rem;
+}
+
+.media-intro {
+  z-index: 3;
+  width: min(90%, 98rem);
+  position: absolute;
+
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.media-intro img {
+  width: 19rem;
+  border-radius: 10px;
+  margin-right: 2rem;
+}
+
+.media-intro .text-wrapper {
+  margin-top: 1.6rem;
+}
+
+.media-intro .title {
+  font-size: 3rem;
+}
+
+.media-intro .genres {
+  font-size: 1.3rem;
+  color: rgb(179, 179, 179);
+}
+
+.main-content {
+  width: min(90%, 98rem);
+  margin: 0 auto;
+}
+
+.main-content span {
+  font-size: 1.4rem;
+  color: rgb(131, 131, 131);
+}
+
+.main-content {
+  font-size: 1.6rem;
+  line-height: 2rem;
+}
+
+.media-information {
+  width: 100%;
+  min-height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.overview {
+  width: 80%;
+
+  margin-top: 2rem;
+}
+
+.info-block {
+  margin: 1rem 0;
+}
+
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error p {
+  color: #fff;
+  font-size: 2.8rem;
+}
+
+@media screen and (max-width: 768px) {
+  .media-intro .title {
+    font-size: 1.6rem;
+  }
+
+  .media-intro img {
+    width: 12rem;
+  }
+
+  .play {
+    height: 2rem;
+    width: 2rem;
+    border: 0.3rem solid white;
+  }
+
+  .media-intro .title {
+    font-size: 2rem;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 
+// Checks for duplicate names in an array of objects
 const removeCreditsDuplicate = (inputArray) => {
   return inputArray.filter(
     (value, index, self) =>
@@ -51,8 +52,9 @@ export const useFetchSingleMedia = (id, type) => {
         };
       });
 
-      // Remove duplicates in the array
+      // Remove duplicates in the cast array
       const cast = removeCreditsDuplicate(castData);
+
       // Sort cast based on popularity
       const popularCast = response.credits.cast
         .sort((a, b) => {
@@ -68,10 +70,7 @@ export const useFetchSingleMedia = (id, type) => {
               creditId: member["credit_id"],
               popularity: member.popularity,
               gender: member.gender === 2 ? "Male" : "Female",
-              profileImage_small:
-                member["profile_path"] === null
-                  ? placeHolder
-                  : `https://image.tmdb.org/t/p/w45${member["profile_path"]}`,
+              profileImage_small: `https://image.tmdb.org/t/p/w45${member["profile_path"]}`,
               profileImage_medium: `https://image.tmdb.org/t/p/w185${member["profile_path"]}`,
               profileImage_large: `https://image.tmdb.org/t/p/w300${member["profile_path"]}`,
               profileImage_original: `https://image.tmdb.org/t/p/original${member["profile_path"]}`,
@@ -79,6 +78,7 @@ export const useFetchSingleMedia = (id, type) => {
           })
         : null;
 
+      // Remove duplicates in the crew array
       const crew = removeCreditsDuplicate(crewData);
 
       const directed_by = response.credits.crew
