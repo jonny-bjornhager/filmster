@@ -18,3 +18,4 @@ This project is still under development, but the tools and libraries currently u
 - [React Router v6](https://reactrouter.com/docs/en/v6/getting-started/overview)
 - [React Lazy Load Image Component](https://www.npmjs.com/package/react-lazy-load-image-component)
 - [SwiperJS for React](https://swiperjs.com/)
+- [react-fontawesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome)
