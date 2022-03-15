@@ -1,4 +1,5 @@
 import classes from "../Pages/MediaInfo.module.css";
+import Modal from "../UI/Modal";
 
 import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
@@ -7,8 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStar } from "@fortawesome/free-solid-svg-icons";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-
-import LoadingScreen from "../UI/LoadingSpinner";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const MediaInfo = ({ type }) => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const MediaInfo = ({ type }) => {
 
   return (
     <>
-      {isLoading && <LoadingScreen />}
+      {isLoading && <LoadingSpinner />}
       {media && (
         <div className={classes["media"]}>
           <div
@@ -51,11 +51,13 @@ const MediaInfo = ({ type }) => {
                 </div>
               </div>
             </div>
-            <FontAwesomeIcon
-              onClick={toggleModalHandler}
-              className={classes["play"]}
-              icon={faPlay}
-            />
+            {!modalOpen && (
+              <FontAwesomeIcon
+                onClick={toggleModalHandler}
+                className={classes["play"]}
+                icon={faPlay}
+              />
+            )}
           </div>
           <div className={classes["main-content"]}>
             <div className={classes["media-information"]}>
@@ -96,6 +98,8 @@ const MediaInfo = ({ type }) => {
           </div>
         </div>
       )}
+
+      {modalOpen && <Modal modalToggler={toggleModalHandler}></Modal>}
     </>
   );
 };

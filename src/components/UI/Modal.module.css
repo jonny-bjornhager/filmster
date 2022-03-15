@@ -1,0 +1,52 @@
+.modal {
+  z-index: 99;
+  width: 90rem;
+  height: 50rem;
+  background-color: #000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  border-radius: 5px;
+  transform: translate(-50%, -50%);
+  transform-origin: top left;
+  animation: modal-appear 0.3s ease;
+}
+
+@keyframes modal-appear {
+  0% {
+    transform: scale(0) translate(-50%, -50%);
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+.modal-backdrop {
+  z-index: 98;
+  background-color: rgba(0, 0, 0, 0.897);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  animation: modal-backdrop-fade-in 0.2s ease;
+}
+
+@keyframes modal-backdrop-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    width: 80vw;
+    height: 23vh;
+  }
+}
