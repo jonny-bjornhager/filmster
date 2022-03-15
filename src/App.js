@@ -1,8 +1,9 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./components/pages/Home";
-import Navbar from "./components/Layout/Navbar";
+import Home from "./Components/Pages/Home";
+import Navbar from "./Components/Layout/Navbar";
+import MediaInfo from "./Components/Pages/MediaInfo";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="movie/:id" element={<MediaInfo type="movie" />} />
+        <Route path="tv-show/:id" element={<MediaInfo type="tv" />} />
       </Routes>
     </div>
   );
