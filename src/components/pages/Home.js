@@ -14,7 +14,6 @@ const Home = () => {
       {isLoading && <LoadingSpinner />}
       {!isLoading && (
         <>
-          {" "}
           <Header movies={media.slice(0, 6)} />
           <section className={classes.popular}>
             <CardSwiper type="movie" fetchUrl={popularMoviesUrl} />
