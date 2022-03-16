@@ -9,6 +9,32 @@ const removeCreditsDuplicate = (inputArray) => {
   );
 };
 
+// Gets the trailers for either a Tv-Show or Movie
+const getTrailer = (inputArray) => {
+  const officialTrailer = inputArray.results.filter(
+    (video) =>
+      video.official === true &&
+      video.site === "YouTube" &&
+      video.type === "Trailer"
+  );
+
+  const nonOfficialTrailer = inputArray.results.filter(
+    (video) =>
+      video.official === false &&
+      video.site === "YouTube" &&
+      video.type === "Trailer"
+  );
+
+  if (officialTrailer.length === 0 && nonOfficialTrailer.length === 0)
+    return null;
+
+  if (officialTrailer.length === 0)
+    return `https://www.youtube.com/embed/${nonOfficialTrailer[0].key}?autoplay=1`;
+
+  if (officialTrailer.length > 0)
+    return `https://www.youtube.com/embed/${officialTrailer[0].key}?autoplay=1`;
+};
+
 export const useFetchSingleMedia = (id, type) => {
   const [media, setMedia] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,15 +122,7 @@ export const useFetchSingleMedia = (id, type) => {
         crew,
       };
 
-      const tryTrailers = response.videos.results.filter((video) => {
-        return video.official === true && video.type === "Trailer";
-      });
-
-      let trailer = null;
-
-      if (tryTrailers.length > 0) {
-        trailer = `https://www.youtube.com/embed/${tryTrailers[0].key}?autoplay=1`;
-      }
+      const trailer = getTrailer(response.videos);
 
       const genres_names = response.genres
         .map((genre) => genre.name)
@@ -125,7 +143,6 @@ export const useFetchSingleMedia = (id, type) => {
           response.images.backdrops.length >= 1
             ? `https://image.tmdb.org/t/p/original${response.images.backdrops[0].file_path}`
             : null,
-        videos: response.videos,
         collection,
         released: response.realease_date ? response.realease_date : null,
         trailerUrl: trailer,

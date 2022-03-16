@@ -14,7 +14,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const MediaInfo = ({ type }) => {
   const { id } = useParams();
   const { media, isLoading, errorMessage } = useFetchSingleMedia(id, type);
-  console.log(media);
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModalHandler = () => {
