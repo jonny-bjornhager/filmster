@@ -38,7 +38,12 @@ const Header = ({ movies }) => {
 
                     <p>{`${movie.overview}`}</p>
                     <Button variant="red-glow">
-                      <Link to={`movie/${movie.id}`}>Watch Trailer</Link>
+                      <Link
+                        className={classes["media-link"]}
+                        to={`movie/${movie.id}`}
+                      >
+                        Watch Trailer
+                      </Link>
                     </Button>
                   </div>
                 </div>

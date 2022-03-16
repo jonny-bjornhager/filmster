@@ -22,7 +22,7 @@
 .btn-red-glow {
   font-size: 2rem;
   background-color: #c21c1c;
-  color: var(--clr-white);
+  color: #fff;
   box-shadow: 0 0 2rem 0.5rem #96161693;
   width: fit-content;
 }

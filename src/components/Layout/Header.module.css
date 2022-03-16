@@ -61,6 +61,10 @@
   justify-content: space-around;
 }
 
+.slider-info .media-link {
+  display: block;
+}
+
 .slider-info h3 {
   font-size: 5rem;
   text-shadow: rgb(0, 0, 0) 0 0.5rem 0.5rem;
