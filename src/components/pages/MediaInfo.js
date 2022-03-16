@@ -1,5 +1,6 @@
 import classes from "../Pages/MediaInfo.module.css";
 import Modal from "../UI/Modal";
+import Trailer from "../UI/Trailer";
 
 import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
@@ -13,6 +14,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const MediaInfo = ({ type }) => {
   const { id } = useParams();
   const { media, isLoading, errorMessage } = useFetchSingleMedia(id, type);
+  console.log(media);
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModalHandler = () => {
@@ -99,7 +101,14 @@ const MediaInfo = ({ type }) => {
         </div>
       )}
 
-      {modalOpen && <Modal modalToggler={toggleModalHandler}></Modal>}
+      {modalOpen && (
+        <Modal modalToggler={toggleModalHandler}>
+          <Trailer
+            closeTrailerModal={toggleModalHandler}
+            url={media.trailerUrl}
+          />
+        </Modal>
+      )}
     </>
   );
 };

@@ -1,11 +1,11 @@
 import classes from "./Trailer.module.css";
 
-const Trailer = ({ url, close }) => {
+const Trailer = ({ url, closeTrailerModal }) => {
   return (
     <>
       {url !== null && (
         <>
-          <div onClick={close} className={classes.close}>
+          <div onClick={closeTrailerModal} className={classes.close}>
             X
           </div>
           <iframe
@@ -23,7 +23,7 @@ const Trailer = ({ url, close }) => {
 
       {url === null && (
         <>
-          <div onClick={close} className={classes.close}>
+          <div onClick={closeTrailerModal} className={classes.close}>
             X
           </div>
           <div className={classes["trailer-error"]}>
