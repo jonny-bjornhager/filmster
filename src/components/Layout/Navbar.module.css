@@ -103,7 +103,7 @@
   height: 2px;
   background-color: white;
   width: 100%;
-  transition: 0.3s ease;
+  transition: 0.5s ease;
 }
 
 .hamburger-container::after {
@@ -143,6 +143,7 @@
 
   .nav-toggle:checked ~ * .hamburger-center-line {
     opacity: 0;
+    transform: scale(0);
   }
 
   .nav-links {
