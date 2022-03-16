@@ -33,6 +33,7 @@ const CardSwiper = ({ type, fetchUrl }) => {
   const linkType = type === "movie" ? "movie" : "tv-show";
 
   const swiperBreakPoints = {
+    280: { slidesPerView: 2, spaceBetween: 10 },
     320: { slidesPerView: 2.5, spaceBetween: 10 },
     414: { slidesPerView: 3, spaceBetween: 15 },
     750: { slidesPerView: 3, spaceBetween: 50 },

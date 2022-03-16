@@ -92,8 +92,8 @@
     align-items: center;
   }
 
-  .slider-content img {
-    display: none;
+  .slider-content span {
+    display: none !important;
   }
 
   .slider-info {
