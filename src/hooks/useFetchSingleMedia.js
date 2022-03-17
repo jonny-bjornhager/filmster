@@ -46,7 +46,7 @@ export const useFetchSingleMedia = (id, type) => {
     try {
       // Fetch details about movie
       const request = await fetch(
-        `https://api.themoviedb.org/3/${type}/${id}?api_key=ef47bbc41cf66aa001c71243efbe457e&append_to_response=videos,images,credits`
+        `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos,images,credits`
       );
 
       if (!request.ok) {

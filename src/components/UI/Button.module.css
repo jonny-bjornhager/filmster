@@ -2,6 +2,7 @@
 
 .btn {
   border: none;
+  outline: none;
   font-size: 1.6rem;
   padding: 0.5em 1em;
 
