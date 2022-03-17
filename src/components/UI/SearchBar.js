@@ -5,7 +5,7 @@ const SearchBar = () => {
     <input
       className={classes.searchBar}
       type="text"
-      placeholder="Search for show or movie"
+      placeholder="Search for a tv-show or movie..."
     />
   );
 };
