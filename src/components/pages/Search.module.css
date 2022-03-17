@@ -5,10 +5,8 @@
 }
 
 .search-section .search-control {
-  width: min(40rem, 70%);
+  width: 100%;
   display: flex;
-  margin: 0 auto;
-  margin-top: 20rem;
 }
 
 @media screen and (max-width: 514px) {

@@ -1,0 +1,21 @@
+.search-form {
+  width: min(40rem, 70%);
+  margin: 0 auto;
+
+  margin-top: 20rem;
+}
+
+.search-control {
+  width: 100%;
+  display: flex;
+}
+
+@media screen and (max-width: 514px) {
+  .search-control {
+    flex-direction: column;
+  }
+
+  .search-control button {
+    margin-top: 1rem;
+  }
+}

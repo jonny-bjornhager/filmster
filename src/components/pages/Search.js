@@ -1,9 +1,8 @@
 import classes from "./Search.module.css";
-import SearchBar from "../UI/SearchBar";
-import Button from "../UI/Button";
 
 import { useEffect, useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
+import SearchForm from "../UI/SearchForm";
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -15,7 +14,9 @@ const Search = () => {
     setSearchInput(event.target.value);
   };
 
-  const onClickSearchHandler = () => {
+  const onSubmitSearchHandler = (event) => {
+    event.preventDefault();
+
     if (searchInput.trim() === "") return;
     fetchSearchedMovies();
     setSearchInput("");
@@ -28,13 +29,11 @@ const Search = () => {
   return (
     <section className={classes["search-section"]}>
       <div className={classes["search-control"]}>
-        <SearchBar
+        <SearchForm
           changeHandler={searchInputChangeHandler}
           searchValue={searchInput}
+          onSubmit={onSubmitSearchHandler}
         />
-        <Button type="submit" onClick={onClickSearchHandler} variant="red">
-          Search
-        </Button>
       </div>
     </section>
   );
