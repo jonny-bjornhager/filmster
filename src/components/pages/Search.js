@@ -7,7 +7,9 @@ import { useFetchSearch } from "../../hooks/useFetchSearch";
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
-  const { searchResults, fetchMulti } = useFetchSearch(searchInput.trim());
+  const { searchResults, fetchSearchedMovies } = useFetchSearch(
+    searchInput.trim()
+  );
 
   const searchInputChangeHandler = (event) => {
     setSearchInput(event.target.value);
@@ -15,9 +17,7 @@ const Search = () => {
 
   const onClickSearchHandler = () => {
     if (searchInput.trim() === "") return;
-
-    fetchMulti();
-
+    fetchSearchedMovies();
     setSearchInput("");
   };
 
@@ -32,7 +32,7 @@ const Search = () => {
           changeHandler={searchInputChangeHandler}
           searchValue={searchInput}
         />
-        <Button onClick={onClickSearchHandler} variant="red">
+        <Button type="submit" onClick={onClickSearchHandler} variant="red">
           Search
         </Button>
       </div>
