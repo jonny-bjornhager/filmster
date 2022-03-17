@@ -1,0 +1,7 @@
+.poster-card {
+  width: 12rem;
+}
+
+.poster-card img {
+  object-fit: cover;
+}
