@@ -3,6 +3,7 @@ import classes from "./Search.module.css";
 import { useEffect, useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 import SearchForm from "../UI/SearchForm";
+import SearchedMedia from "../Layout/SearchedMedia";
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -35,6 +36,8 @@ const Search = () => {
           onSubmit={onSubmitSearchHandler}
         />
       </div>
+
+      {searchResults.length > 0 && <SearchedMedia mediaItems={searchResults} />}
     </section>
   );
 };

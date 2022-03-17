@@ -9,7 +9,7 @@
   display: flex;
 }
 
-@media screen and (max-width: 514px) {
+@media screen and (max-width: 768px) {
   .search-section .search-control {
     flex-direction: column;
   }

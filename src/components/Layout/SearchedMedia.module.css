@@ -1,0 +1,17 @@
+.searched-media-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-auto-rows: 1fr;
+  grid-gap: 2rem;
+  width: 70%;
+  /* padding: 1rem 0; */
+  margin: 0 auto;
+  animation: fade-in 1s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .searched-media-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    width: 90%;
+  }
+}
