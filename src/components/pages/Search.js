@@ -2,23 +2,39 @@ import classes from "./Search.module.css";
 import SearchBar from "../UI/SearchBar";
 import Button from "../UI/Button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFetchSearch } from "../../hooks/useFetchSearch";
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
+  const { searchResults, fetchMulti } = useFetchSearch(searchInput.trim());
 
-  const inputChangeHandler = (event) => {
+  const searchInputChangeHandler = (event) => {
     setSearchInput(event.target.value);
   };
+
+  const onClickSearchHandler = () => {
+    if (searchInput.trim() === "") return;
+
+    fetchMulti();
+
+    setSearchInput("");
+  };
+
+  useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
 
   return (
     <section className={classes["search-section"]}>
       <div className={classes["search-control"]}>
         <SearchBar
-          changeHandler={inputChangeHandler}
+          changeHandler={searchInputChangeHandler}
           searchValue={searchInput}
         />
-        <Button variant="red">Search</Button>
+        <Button onClick={onClickSearchHandler} variant="red">
+          Search
+        </Button>
       </div>
     </section>
   );
