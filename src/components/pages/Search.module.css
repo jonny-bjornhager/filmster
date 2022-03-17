@@ -1,0 +1,22 @@
+.search-section {
+  margin-top: 54px;
+  min-height: calc(100vh - 54px);
+  width: 100%;
+}
+
+.search-section .search-control {
+  width: min(40rem, 70%);
+  display: flex;
+  margin: 0 auto;
+  margin-top: 20rem;
+}
+
+@media screen and (max-width: 514px) {
+  .search-section .search-control {
+    flex-direction: column;
+  }
+
+  .search-section .search-control button {
+    margin-top: 1rem;
+  }
+}
