@@ -21,6 +21,14 @@
   margin-top: 1.6rem;
 }
 
+.vertical-line {
+  background-color: transparent;
+  backface-visibility: none;
+
+  width: 5px;
+  height: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .search-control {
     flex-direction: column;

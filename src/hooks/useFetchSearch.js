@@ -36,9 +36,11 @@ const transformMovieData = (inputArray, mediaType) => {
 
 export const useFetchSearch = (input) => {
   const [searchResults, setSearchResults] = useState({});
+  const [isLoading, setIsLoading] = useState(null);
 
   // Fetches searched Movies
   const fetchSearchedMovies = async () => {
+    setIsLoading(true);
     const request = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
     );
@@ -47,10 +49,12 @@ export const useFetchSearch = (input) => {
     console.log(results);
 
     setSearchResults(transformMovieData(results, "movie"));
+    setIsLoading(false);
   };
 
   // Fetches searched Tv-Shows
   const fetchSearchedTvShows = async () => {
+    setIsLoading(true);
     const request = await fetch(
       `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
     );
@@ -58,7 +62,13 @@ export const useFetchSearch = (input) => {
     const { results } = await request.json();
 
     setSearchResults(transformMovieData(results, "tv-show"));
+    setIsLoading(false);
   };
 
-  return { searchResults, fetchSearchedMovies, fetchSearchedTvShows };
+  return {
+    searchResults,
+    fetchSearchedMovies,
+    fetchSearchedTvShows,
+    isLoading,
+  };
 };
