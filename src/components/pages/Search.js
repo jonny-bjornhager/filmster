@@ -1,15 +1,14 @@
 import classes from "./Search.module.css";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 import SearchForm from "../UI/SearchForm";
 import SearchedMedia from "../Layout/SearchedMedia";
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
-  const { searchResults, fetchSearchedMovies } = useFetchSearch(
-    searchInput.trim()
-  );
+  const { searchResults, fetchSearchedMovies, fetchSearchedTvShows } =
+    useFetchSearch(searchInput.trim());
 
   const searchInputChangeHandler = (event) => {
     setSearchInput(event.target.value);
@@ -19,13 +18,9 @@ const Search = () => {
     event.preventDefault();
 
     if (searchInput.trim() === "") return;
-    fetchSearchedMovies();
+    fetchSearchedTvShows();
     setSearchInput("");
   };
-
-  useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
 
   return (
     <section className={classes["search-section"]}>
