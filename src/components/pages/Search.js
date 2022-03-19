@@ -24,13 +24,11 @@ const Search = () => {
 
   return (
     <section className={classes["search-section"]}>
-      <div className={classes["search-control"]}>
-        <SearchForm
-          changeHandler={searchInputChangeHandler}
-          searchValue={searchInput}
-          onSubmit={onSubmitSearchHandler}
-        />
-      </div>
+      <SearchForm
+        changeHandler={searchInputChangeHandler}
+        searchValue={searchInput}
+        onSubmit={onSubmitSearchHandler}
+      />
 
       {searchResults.length > 0 && <SearchedMedia mediaItems={searchResults} />}
     </section>

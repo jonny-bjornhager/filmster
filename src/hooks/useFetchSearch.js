@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 const transformMovieData = (inputArray, mediaType) => {
-  const inputHasImgAndYear = inputArray.filter((item) => item.poster_path);
+  const inputHasProperties = inputArray.filter(
+    (item) => item.poster_path && item.vote_average !== 0
+  );
 
   if (mediaType === "movie") {
-    return inputHasImgAndYear.map((item) => {
+    return inputHasProperties.map((item) => {
       return {
         id: item.id,
         title: item.original_title,
@@ -12,12 +14,13 @@ const transformMovieData = (inputArray, mediaType) => {
         year: new Date(item.release_date).getFullYear(),
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
+        mediaType,
       };
     });
   }
 
-  if (mediaType === "tv") {
-    return inputHasImgAndYear.map((item) => {
+  if (mediaType === "tv-show") {
+    return inputHasProperties.map((item) => {
       return {
         id: item.id,
         title: item.original_name,
@@ -25,6 +28,7 @@ const transformMovieData = (inputArray, mediaType) => {
         year: new Date(item.first_air_date).getFullYear() || "",
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
+        mediaType,
       };
     });
   }
@@ -52,9 +56,8 @@ export const useFetchSearch = (input) => {
     );
 
     const { results } = await request.json();
-    console.log(results);
 
-    setSearchResults(transformMovieData(results, "tv"));
+    setSearchResults(transformMovieData(results, "tv-show"));
   };
 
   return { searchResults, fetchSearchedMovies, fetchSearchedTvShows };

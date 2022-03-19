@@ -6,7 +6,13 @@
   grid-gap: 2rem;
   width: 70%;
   margin: 0 auto;
+  padding: 10rem 0;
+
   animation: fade-in 1s ease;
+}
+
+.searched-media-wrapper a {
+  text-decoration: none;
 }
 
 @media screen and (max-width: 768px) {
