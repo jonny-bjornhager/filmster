@@ -11,6 +11,16 @@
   display: flex;
 }
 
+.radio-btns {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 1.6rem;
+}
+
 @media screen and (max-width: 768px) {
   .search-control {
     flex-direction: column;
