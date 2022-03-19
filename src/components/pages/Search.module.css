@@ -3,18 +3,3 @@
   min-height: calc(100vh - 54px);
   width: 100%;
 }
-
-.search-section .search-control {
-  width: 100%;
-  display: flex;
-}
-
-@media screen and (max-width: 768px) {
-  .search-section .search-control {
-    flex-direction: column;
-  }
-
-  .search-section .search-control button {
-    margin-top: 1rem;
-  }
-}

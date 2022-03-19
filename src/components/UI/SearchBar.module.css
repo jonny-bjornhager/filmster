@@ -22,8 +22,8 @@
   color: rgb(99, 99, 99);
 }
 
-@media screen and (max-width: 514px) {
+@media screen and (max-width: 768px) {
   .searchBar {
-    margin-right: 0;
+    margin: 0;
   }
 }

@@ -32,7 +32,7 @@ const MediaInfo = ({ type }) => {
   return (
     <>
       {isLoading && <LoadingSpinner />}
-      {media && (
+      {!isLoading && media && (
         <div className={classes["media"]}>
           <div
             style={{ backgroundImage: `url(${media.backdrop})` }}

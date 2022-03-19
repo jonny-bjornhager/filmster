@@ -1,8 +1,9 @@
 .search-form {
   width: min(40rem, 70%);
-  margin: 0 auto;
-
   margin-top: 20rem;
+  margin-bottom: 10rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .search-control {

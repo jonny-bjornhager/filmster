@@ -10,24 +10,20 @@
   object-fit: cover;
 }
 
-.poster-card-info {
-  color: #fff;
-  font-size: 1.6rem;
-  padding: 1rem 0;
+.poster-top {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 
-.poster-card .rating {
-  color: yellow;
+.poster-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.trailing-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
+.poster-info p {
+  color: #fff;
+  font-size: 1.6rem;
 }
 
 @media screen and (max-width: 768px) {
