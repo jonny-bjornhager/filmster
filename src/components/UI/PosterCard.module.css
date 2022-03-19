@@ -10,21 +10,27 @@
   object-fit: cover;
 }
 
-.poster-top {
-  display: flex;
-  justify-content: space-between;
+.poster-card .title-container {
+  margin-top: 0.5rem;
 }
 
-.poster-title {
-  overflow: hidden;
+.title-container p {
+  color: #fff;
+  font-size: 1.5rem;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.poster-info p {
-  color: #fff;
-  font-size: 1.6rem;
+.poster-info {
+  margin-top: 0.7rem;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 1.4rem;
 }
 
-@media screen and (max-width: 768px) {
+.rating-star {
+  color: yellow;
 }

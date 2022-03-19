@@ -6,20 +6,19 @@ const PosterCard = ({ media }) => {
   return (
     <div className={classes["poster-card"]}>
       <img src={media.poster} alt={media.title} />
+
+      <div className={classes["title-container"]}>
+        <p>{media.title}</p>
+      </div>
+
       <div className={classes["poster-info"]}>
-        <div className={classes["poster-top"]}>
-          <div className={classes["poster-rating"]}>
-            <p>{media.rating}</p>
-          </div>
-          <div
-            className={`${classes["poster-title"]} ${classes["trailing-text"]}`}
-          >
-            <p>{media.title}</p>
-          </div>
-        </div>
-        <div className={classes["poster-year"]}>
-          <p>{media.year}</p>
-        </div>
+        {media.year && <p>{media.year}</p>}
+        <p>
+          {media.rating}{" "}
+          <span className={classes["rating-star"]}>
+            {<FontAwesomeIcon icon={faStar} />}
+          </span>{" "}
+        </p>
       </div>
     </div>
   );
