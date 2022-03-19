@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const transformMovieData = (inputArray, mediaType) => {
+// Transforms the given data to it's expected format
+const transformMediaData = (inputArray, mediaType) => {
   const inputHasProperties = inputArray.filter(
     (item) => item.poster_path && item.vote_average !== 0
   );
@@ -39,36 +40,30 @@ export const useFetchSearch = (input) => {
   const [isLoading, setIsLoading] = useState(null);
 
   // Fetches searched Movies
-  const fetchSearchedMovies = async () => {
+  const fetchSearched = async () => {
     setIsLoading(true);
-    const request = await fetch(
+    const moviesRequest = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
     );
 
-    const { results } = await request.json();
-    console.log(results);
+    const { results: movieResults } = await moviesRequest.json();
 
-    setSearchResults(transformMovieData(results, "movie"));
-    setIsLoading(false);
-  };
-
-  // Fetches searched Tv-Shows
-  const fetchSearchedTvShows = async () => {
-    setIsLoading(true);
-    const request = await fetch(
+    const tvRequest = await fetch(
       `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
     );
 
-    const { results } = await request.json();
+    const { results: tvResults } = await tvRequest.json();
 
-    setSearchResults(transformMovieData(results, "tv-show"));
+    setSearchResults({
+      movies: transformMediaData(movieResults, "movie"),
+      tv_shows: transformMediaData(tvResults, "tv-show"),
+    });
     setIsLoading(false);
   };
 
   return {
     searchResults,
-    fetchSearchedMovies,
-    fetchSearchedTvShows,
+    fetchSearched,
     isLoading,
   };
 };

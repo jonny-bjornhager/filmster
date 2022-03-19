@@ -7,8 +7,14 @@
   width: 70%;
   margin: 0 auto;
   padding: 10rem 0;
+  animation: searched-fade-in 1s ease;
+}
 
-  animation: fade-in 1s ease;
+@keyframes searched-fade-in {
+  0% {
+    transform: translateY(0.5rem);
+    opacity: 0;
+  }
 }
 
 .searched-media-wrapper a {

@@ -9,13 +9,9 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [mediaType, setMediaType] = useState("movie");
-
-  const {
-    searchResults,
-    fetchSearchedMovies,
-    fetchSearchedTvShows,
-    isLoading,
-  } = useFetchSearch(searchInput.trim());
+  const { searchResults, fetchSearched, isLoading } = useFetchSearch(
+    searchInput.trim()
+  );
 
   const searchInputChangeHandler = (event) => {
     setSearchInput(event.target.value);
@@ -25,9 +21,7 @@ const Search = () => {
     event.preventDefault();
 
     if (searchInput.trim() === "") return;
-
-    if (mediaType === "tv") fetchSearchedTvShows();
-    if (mediaType === "movie") fetchSearchedMovies();
+    fetchSearched();
 
     setSearchInput("");
   };
@@ -46,8 +40,12 @@ const Search = () => {
         mediaTypeChangeHandler={mediaTypeChangeHandler}
       />
       {isLoading && <LoadingSpinner />}
-      {!isLoading && searchResults.length > 0 && (
-        <SearchedMedia mediaItems={searchResults} />
+      {!isLoading && searchResults?.movies && mediaType === "movie" && (
+        <SearchedMedia mediaItems={searchResults.movies} />
+      )}
+
+      {!isLoading && searchResults?.tv_shows && mediaType === "tv" && (
+        <SearchedMedia mediaItems={searchResults.tv_shows} />
       )}
     </section>
   );
