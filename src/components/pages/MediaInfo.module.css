@@ -81,7 +81,7 @@
 
 .media-intro {
   z-index: 3;
-  width: min(70%, 98rem);
+  width: 70%;
 
   margin: 0 auto;
   margin-bottom: 2rem;
@@ -139,7 +139,6 @@
 
 .overview {
   width: 80%;
-
   margin-top: 2rem;
 }
 
@@ -194,5 +193,18 @@
 
   .media-intro .title {
     font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .media-intro,
+  .main-content {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .media-intro img {
+    width: 10rem;
   }
 }
