@@ -1,14 +1,6 @@
 .media {
   width: 100%;
   color: #fff;
-
-  position: relative;
-}
-
-.back-container {
-  width: min(90%, 98rem);
-  z-index: 55;
-  padding: 1rem 0;
 }
 
 .media-backdrop {
@@ -62,7 +54,7 @@
 
 .play {
   background-color: transparent;
-  color: white;
+  color: #fff;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -89,7 +81,7 @@
 
 .media-intro {
   z-index: 3;
-  width: min(90%, 98rem);
+  width: min(70%, 98rem);
 
   margin: 0 auto;
   margin-bottom: 2rem;
@@ -123,7 +115,7 @@
 }
 
 .main-content {
-  width: min(90%, 98rem);
+  width: min(70%, 98rem);
   margin: 0 auto;
 }
 
@@ -165,6 +157,24 @@
 .error p {
   color: #fff;
   font-size: 2.8rem;
+}
+
+@media screen and (max-width: 1920px) {
+  .media-intro img {
+    width: 15rem;
+  }
+
+  .play {
+    height: 3rem;
+    width: 3rem;
+    border: 0.4rem solid white;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .media-intro img {
+    width: 13rem;
+  }
 }
 
 @media screen and (max-width: 768px) {

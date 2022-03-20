@@ -43,15 +43,6 @@ const MediaInfo = ({ type }) => {
             style={{ backgroundImage: `url(${media.backdrop})` }}
             className={classes["media-backdrop"]}
           >
-            <div className={classes["back-container"]}>
-              <Link className={classes["back-link"]} to="/">
-                <Button variant="red">
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                  &nbsp;Back
-                </Button>
-              </Link>
-            </div>
-
             <div className={classes["media-intro"]}>
               <LazyLoadImage
                 src={media.poster}
