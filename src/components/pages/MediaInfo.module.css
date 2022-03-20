@@ -1,6 +1,14 @@
 .media {
   width: 100%;
   color: #fff;
+
+  position: relative;
+}
+
+.back-container {
+  width: min(90%, 98rem);
+  z-index: 55;
+  padding: 1rem 0;
 }
 
 .media-backdrop {
@@ -12,8 +20,9 @@
   background-size: cover;
 
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 
   animation: drop-in 0.5s ease;
 }
@@ -81,12 +90,17 @@
 .media-intro {
   z-index: 3;
   width: min(90%, 98rem);
-  position: absolute;
 
   margin: 0 auto;
   margin-bottom: 2rem;
   display: flex;
   align-items: flex-end;
+}
+
+.media-intro button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .media-intro img {
@@ -170,11 +184,5 @@
 
   .media-intro .title {
     font-size: 2rem;
-  }
-}
-
-@media screen and (max-width: 301px) {
-  .media-intro img {
-    width: 10rem;
   }
 }

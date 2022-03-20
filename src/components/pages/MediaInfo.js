@@ -4,12 +4,17 @@ import Trailer from "../UI/Trailer";
 
 import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlay,
+  faStar,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import Button from "../UI/Button";
 
 const MediaInfo = ({ type }) => {
   const { id } = useParams();
@@ -38,6 +43,15 @@ const MediaInfo = ({ type }) => {
             style={{ backgroundImage: `url(${media.backdrop})` }}
             className={classes["media-backdrop"]}
           >
+            <div className={classes["back-container"]}>
+              <Link className={classes["back-link"]} to="/">
+                <Button variant="red">
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                  &nbsp;Back
+                </Button>
+              </Link>
+            </div>
+
             <div className={classes["media-intro"]}>
               <LazyLoadImage
                 src={media.poster}
