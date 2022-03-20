@@ -1,7 +1,7 @@
 .modal {
   z-index: 99;
-  width: 90rem;
-  height: 50rem;
+  width: 60rem;
+  height: 40rem;
   background-color: #000;
   position: fixed;
   top: 50%;
@@ -46,7 +46,40 @@
 
 @media screen and (max-width: 768px) {
   .modal {
-    width: 80vw;
-    height: 23vh;
+    width: 45rem;
+    height: 25rem;
+  }
+}
+
+@media screen and (max-width: 546px) {
+  .modal {
+    width: 40rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal {
+    width: 33rem;
+    height: 18rem;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .modal {
+    width: 30rem;
+    height: 15rem;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .modal {
+    width: 28rem;
+  }
+}
+
+@media screen and (max-width: 328px) {
+  .modal {
+    width: 24rem;
+    height: 13rem;
   }
 }
