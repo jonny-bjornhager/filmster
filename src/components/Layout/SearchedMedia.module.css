@@ -21,6 +21,20 @@
   text-decoration: none;
 }
 
+.error-box {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem 0;
+  margin: 0 auto;
+}
+
+.error-box p {
+  color: #fff;
+  font-size: 2rem;
+}
+
 @media screen and (max-width: 1024px) {
   .searched-media-wrapper {
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));

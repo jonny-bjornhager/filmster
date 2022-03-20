@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-// Transforms the given data to it's expected format
+/* Transforms the given array of
+movies or tv-shows to it's expected format */
 const transformMediaData = (inputArray, mediaType) => {
   const inputHasProperties = inputArray.filter(
     (item) => item.poster_path && item.vote_average !== 0
@@ -38,26 +39,36 @@ const transformMediaData = (inputArray, mediaType) => {
 export const useFetchSearch = (input) => {
   const [searchResults, setSearchResults] = useState({});
   const [isLoading, setIsLoading] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // Fetches searched Movies
   const fetchSearched = async () => {
     setIsLoading(true);
-    const moviesRequest = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
-    );
 
-    const { results: movieResults } = await moviesRequest.json();
+    try {
+      const moviesRequest = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
+      );
 
-    const tvRequest = await fetch(
-      `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
-    );
+      const tvRequest = await fetch(
+        `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
+      );
 
-    const { results: tvResults } = await tvRequest.json();
+      if (!moviesRequest.ok || !tvRequest.ok) {
+        throw new Error("Something went wrong. Try again with another search.");
+      }
 
-    setSearchResults({
-      movies: transformMediaData(movieResults, "movie"),
-      tv_shows: transformMediaData(tvResults, "tv-show"),
-    });
+      const { results: movieResults } = await moviesRequest.json();
+      const { results: tvResults } = await tvRequest.json();
+
+      setSearchResults({
+        movies: transformMediaData(movieResults, "movie"),
+        tv_shows: transformMediaData(tvResults, "tv-show"),
+      });
+    } catch (error) {
+      setErrorMsg(`${error.message}: ${error}`);
+    }
+
     setIsLoading(false);
   };
 
@@ -65,5 +76,6 @@ export const useFetchSearch = (input) => {
     searchResults,
     fetchSearched,
     isLoading,
+    errorMsg,
   };
 };

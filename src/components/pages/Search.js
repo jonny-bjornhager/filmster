@@ -9,7 +9,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [mediaType, setMediaType] = useState("movie");
-  const { searchResults, fetchSearched, isLoading } = useFetchSearch(
+  const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
     searchInput.trim()
   );
 
@@ -45,7 +45,10 @@ const Search = () => {
       )}
 
       {!isLoading && searchResults?.tv_shows && mediaType === "tv" && (
-        <SearchedMedia mediaItems={searchResults.tv_shows} />
+        <SearchedMedia
+          errorMsg={errorMsg}
+          mediaItems={searchResults.tv_shows}
+        />
       )}
     </section>
   );
