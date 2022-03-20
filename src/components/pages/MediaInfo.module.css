@@ -159,10 +159,6 @@
 }
 
 @media screen and (max-width: 1920px) {
-  .media-intro img {
-    width: 15rem;
-  }
-
   .play {
     height: 3rem;
     width: 3rem;
@@ -172,7 +168,7 @@
 
 @media screen and (max-width: 1024px) {
   .media-intro img {
-    width: 13rem;
+    width: 16rem;
   }
 }
 
@@ -206,5 +202,11 @@
 @media screen and (max-width: 414px) {
   .media-intro img {
     width: 10rem;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .media-intro img {
+    width: 7rem;
   }
 }
