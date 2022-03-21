@@ -74,6 +74,7 @@ export const useFetchSearch = (input) => {
 
   return {
     searchResults,
+
     fetchSearched,
     isLoading,
     errorMsg,

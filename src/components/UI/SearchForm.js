@@ -51,28 +51,6 @@ const SearchForm = ({
           Tv-shows
         </RadioButton>
       </div>
-
-      {searchExists && (
-        <div className={classes["filters"]}>
-          <RadioButton
-            functionType="filter"
-            filterHandler={filterHandler}
-            name="filter-by"
-            choice="rating"
-          >
-            Rating
-          </RadioButton>
-          <div className={classes["vertical-line"]}></div>
-          <RadioButton
-            functionType="filter"
-            filterHandler={filterHandler}
-            name="filter-by"
-            choice="year"
-          >
-            Year
-          </RadioButton>
-        </div>
-      )}
     </form>
   );
 };

@@ -1,7 +1,9 @@
 import classes from "./Search.module.css";
 
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
+import { fetchGenres } from "../../fetchGenres";
 import SearchForm from "../UI/SearchForm";
 import SearchedMedia from "../Layout/SearchedMedia";
 import LoadingSpinner from "../UI/LoadingSpinner";
@@ -9,70 +11,54 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [mediaType, setMediaType] = useState("movie");
+  const [genres, setGenres] = useState([]);
   const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
     searchInput.trim()
   );
-  const [filteredMedia, setFilteredMedia] = useState([]);
-  const [hasFiltered, setHasFiltered] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  // Handle filtering
   const filterHandler = (event) => {
     const value = event.target.value;
-
-    if (value === "rating") {
-      const filteredMovies = [...searchResults.movies].sort((a, b) => {
-        return b.rating - a.rating;
-      });
-
-      const filteredTvShows = [...searchResults.tv_shows].sort((a, b) => {
-        return b.rating - a.rating;
-      });
-
-      setFilteredMedia({
-        movies: filteredMovies,
-        tv_shows: filteredTvShows,
-      });
-    }
-
-    if (value === "year") {
-      const filteredMovies = [...searchResults.movies].sort((a, b) => {
-        return b.year - a.year;
-      });
-
-      const filteredTvShows = [...searchResults.tv_shows].sort((a, b) => {
-        return b.year - a.year;
-      });
-
-      setFilteredMedia({
-        movies: filteredMovies,
-        tv_shows: filteredTvShows,
-      });
-    }
   };
 
+  // Handle search Input
   const searchInputChangeHandler = (event) => {
     setSearchInput(event.target.value);
   };
 
+  // Handle submit
   const onSubmitSearchHandler = (event) => {
     event.preventDefault();
 
     if (searchInput.trim() === "") return;
     fetchSearched();
     setSearchInput("");
-
-    setHasFiltered(false);
-    setFilteredMedia([]);
   };
 
+  // Handle change of searched media type
   const mediaTypeChangeHandler = (event) => {
     if (mediaType === event.target.value) return;
     setMediaType(event.target.value);
   };
 
   useEffect(() => {
-    Object.keys(filteredMedia).length > 0 && setHasFiltered(true);
-    if (hasFiltered === true) return;
-  }, [hasFiltered, filteredMedia]);
+    setSearchParams({ type: mediaType });
+  }, [setSearchParams, mediaType]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchGenres().then((genres) => {
+      if (isMounted) {
+        setGenres(genres);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section className={classes["search-section"]}>
@@ -86,21 +72,11 @@ const Search = () => {
       />
       {isLoading && <LoadingSpinner />}
       {!isLoading && searchResults?.movies && mediaType === "movie" && (
-        <SearchedMedia
-          mediaItems={
-            !hasFiltered ? searchResults.movies : filteredMedia.movies
-          }
-          errorMsg={errorMsg}
-        />
+        <SearchedMedia mediaItems={searchResults.movies} errorMsg={errorMsg} />
       )}
 
       {!isLoading && searchResults?.tv_shows && mediaType === "tv" && (
-        <SearchedMedia
-          errorMsg={errorMsg}
-          mediaItems={
-            !hasFiltered ? searchResults.tv_shows : filteredMedia.tv_shows
-          }
-        />
+        <SearchedMedia errorMsg={errorMsg} mediaItems={searchResults.movies} />
       )}
     </section>
   );
