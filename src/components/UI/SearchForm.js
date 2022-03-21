@@ -47,7 +47,6 @@ const SearchForm = ({
           mediaTypeChangeHandler={mediaTypeChangeHandler}
           name="type-choice"
           choice="tv"
-          defaultChecked={false}
         >
           Tv-shows
         </RadioButton>
