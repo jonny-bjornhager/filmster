@@ -18,7 +18,7 @@ const Home = () => {
           <section className={classes.popular}>
             <CardSwiper type="movie" fetchUrl={popularMoviesUrl} />
             <CardSwiper
-              inlineStyle={{ padding: "3rem 0" }}
+              inlineStyle={{ margin: "3rem 0" }}
               type="tv"
               fetchUrl={popularTvShowsUrl}
             />
