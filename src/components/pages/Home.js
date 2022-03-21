@@ -17,7 +17,11 @@ const Home = () => {
           <Header movies={media.slice(0, 6)} />
           <section className={classes.popular}>
             <CardSwiper type="movie" fetchUrl={popularMoviesUrl} />
-            <CardSwiper type="tv" fetchUrl={popularTvShowsUrl} />
+            <CardSwiper
+              inlineStyle={{ padding: "3rem 0" }}
+              type="tv"
+              fetchUrl={popularTvShowsUrl}
+            />
           </section>
         </>
       )}

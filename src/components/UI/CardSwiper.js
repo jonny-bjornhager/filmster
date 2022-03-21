@@ -9,7 +9,7 @@ import "swiper/css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const CardSwiper = ({ type, fetchUrl }) => {
+const CardSwiper = ({ type, fetchUrl, inlineStyle }) => {
   const { media: movies } = useFetchPopularMedia(fetchUrl);
   const [popularType, setPopularType] = useState("");
 
@@ -47,7 +47,7 @@ const CardSwiper = ({ type, fetchUrl }) => {
 
   return (
     <>
-      <div className={classes["card-swiper"]}>
+      <div style={inlineStyle} className={classes["card-swiper"]}>
         <h3>Popular {popularType}</h3>
         <Swiper
           className={classes["swiper"]}
