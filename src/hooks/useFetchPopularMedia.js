@@ -12,6 +12,11 @@ export const useFetchPopularMedia = (url) => {
 
     try {
       const request = await fetch(url);
+
+      if (!request.ok) {
+        throw new Error("Something went wrong. Please try again.");
+      }
+
       const { results } = await request.json();
 
       // Filter movies that has no backdrop and map
@@ -32,8 +37,7 @@ export const useFetchPopularMedia = (url) => {
           };
         });
     } catch (error) {
-      console.log(error.message);
-      setErrorMessage(error.message);
+      setErrorMessage(`${error.message}. ${error}`);
     }
   }, [url]);
 
