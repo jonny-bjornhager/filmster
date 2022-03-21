@@ -3,7 +3,7 @@ import classes from "./SearchedMedia.module.css";
 import PosterCard from "../UI/PosterCard";
 import { Link } from "react-router-dom";
 
-const SearchedMedia = ({ mediaItems, errorMsg }) => {
+const SearchedMedia = ({ mediaItems, errorMsg, filtered }) => {
   const itemsNotExist = mediaItems.length === 0;
   const emptyOrError = errorMsg ? (
     <p>{errorMsg}</p>

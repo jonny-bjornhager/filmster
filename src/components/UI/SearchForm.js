@@ -3,13 +3,23 @@ import classes from "./SearchForm.module.css";
 import Button from "./Button";
 import SearchBar from "./SearchBar";
 import RadioButton from "./RadioButton";
+import { useEffect, useState } from "react";
 
 const SearchForm = ({
+  searchResults,
   mediaTypeChangeHandler,
+  filterHandler,
   inputChangeHandler,
   onSubmit,
   searchValue,
 }) => {
+  const [searchExists, setSearchExists] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(searchResults).length > 0) setSearchExists(true);
+    if (searchExists) return;
+  }, [searchResults, searchExists]);
+
   return (
     <form onSubmit={onSubmit} className={classes["search-form"]}>
       <div className={classes["search-control"]}>
@@ -21,8 +31,9 @@ const SearchForm = ({
           Search
         </Button>
       </div>
-      <div className={classes["radio-btns"]}>
+      <div className={classes["search-types"]}>
         <RadioButton
+          functionType="change"
           mediaTypeChangeHandler={mediaTypeChangeHandler}
           name="type-choice"
           choice="movie"
@@ -32,6 +43,7 @@ const SearchForm = ({
         </RadioButton>
         <div className={classes["vertical-line"]}></div>
         <RadioButton
+          functionType="change"
           mediaTypeChangeHandler={mediaTypeChangeHandler}
           name="type-choice"
           choice="tv"
@@ -40,6 +52,28 @@ const SearchForm = ({
           Tv-shows
         </RadioButton>
       </div>
+
+      {searchExists && (
+        <div className={classes["filters"]}>
+          <RadioButton
+            functionType="filter"
+            filterHandler={filterHandler}
+            name="filter-by"
+            choice="rating"
+          >
+            Rating
+          </RadioButton>
+          <div className={classes["vertical-line"]}></div>
+          <RadioButton
+            functionType="filter"
+            filterHandler={filterHandler}
+            name="filter-by"
+            choice="year"
+          >
+            Year
+          </RadioButton>
+        </div>
+      )}
     </form>
   );
 };
