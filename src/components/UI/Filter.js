@@ -38,7 +38,7 @@ const Filter = ({ type }) => {
 
   // Reset Search Parameters
   const resetSearchParams = () => {
-    setSearchParams("");
+    setSearchParams({ type: type });
     setFiltersParams([]);
     setFilterTouched(false);
   };
@@ -62,9 +62,12 @@ const Filter = ({ type }) => {
   useEffect(() => {
     if (filtersParams.length > 0) {
       setFilterTouched(true);
-      setSearchParams({ genre: filtersParams });
+      setSearchParams({ type: type, genre: filtersParams });
     }
-    if (filtersParams.length === 0) setFilterTouched(false);
+    if (filtersParams.length === 0) {
+      setFilterTouched(false);
+      setSearchParams({ type: type });
+    }
   }, [filtersParams, setSearchParams]);
 
   return (

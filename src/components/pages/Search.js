@@ -1,7 +1,7 @@
 import classes from "./Search.module.css";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 
 import SearchForm from "../UI/SearchForm";
@@ -14,12 +14,8 @@ const Search = () => {
   const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
     searchInput.trim()
   );
+  const [filteredMedia, setFilteredMedia] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // Handle filtering
-  const filterChangeHandler = (event) => {
-    const value = event.target.value;
-  };
 
   // Handle search Input
   const searchInputChangeHandler = (event) => {
@@ -41,11 +37,14 @@ const Search = () => {
     setMediaType(event.target.value);
   };
 
+  useEffect(() => {
+    setSearchParams({ type: mediaType });
+  }, [mediaType, setSearchParams]);
+
   return (
     <section className={classes["search-section"]}>
       <SearchForm
         inputChangeHandler={searchInputChangeHandler}
-        filterChangeHandler={filterChangeHandler}
         searchValue={searchInput}
         onSubmit={onSubmitSearchHandler}
         mediaTypeChangeHandler={mediaTypeChangeHandler}

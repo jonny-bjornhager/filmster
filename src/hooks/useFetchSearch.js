@@ -2,13 +2,14 @@ import { useState } from "react";
 
 /* Transforms the given array of
 movies or tv-shows to it's expected format */
-const transformMediaData = (inputArray, mediaType) => {
+const transformMediaData = (inputArray, mediaType, genres) => {
   const inputHasProperties = inputArray.filter(
-    (item) => item.poster_path && item.vote_average !== 0
+    (item) =>
+      item.poster_path && item.vote_average !== 0 && item.backdrop_path !== null
   );
 
   if (mediaType === "movie") {
-    return inputHasProperties.map((item) => {
+    const movieData = inputHasProperties.map((item) => {
       return {
         id: item.id,
         title: item.original_title,
@@ -17,12 +18,15 @@ const transformMediaData = (inputArray, mediaType) => {
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
+        genres: genres.filter((genre) => item.genre_ids.includes(genre.id)),
       };
     });
+
+    return movieData;
   }
 
   if (mediaType === "tv-show") {
-    return inputHasProperties.map((item) => {
+    const tvData = inputHasProperties.map((item) => {
       return {
         id: item.id,
         title: item.original_name,
@@ -31,8 +35,11 @@ const transformMediaData = (inputArray, mediaType) => {
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
+        genres: genres.filter((genre) => item.genre_ids.includes(genre.id)),
       };
     });
+
+    return tvData;
   }
 };
 
@@ -54,16 +61,27 @@ export const useFetchSearch = (input) => {
         `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
       );
 
+      const movieGenresRequest = await fetch(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+
+      const tvGenresRequest = await fetch(
+        `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+
       if (!moviesRequest.ok || !tvRequest.ok) {
         throw new Error("Something went wrong. Try again with another search.");
       }
 
       const { results: movieResults } = await moviesRequest.json();
+      const { genres: movieGenresResults } = await movieGenresRequest.json();
+
       const { results: tvResults } = await tvRequest.json();
+      const { genres: tvGenresResults } = await tvGenresRequest.json();
 
       setSearchResults({
-        movies: transformMediaData(movieResults, "movie"),
-        tv_shows: transformMediaData(tvResults, "tv-show"),
+        movies: transformMediaData(movieResults, "movie", movieGenresResults),
+        tv_shows: transformMediaData(tvResults, "tv-show", tvGenresResults),
       });
     } catch (error) {
       setErrorMsg(`${error.message}: ${error}`);
