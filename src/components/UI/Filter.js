@@ -1,5 +1,5 @@
 import classes from "./Filter.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Button from "./Button";
 import { fetchGenres } from "../../fetchGenres";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,31 +9,82 @@ import FilterCard from "./FilterCard";
 import RangeInputSlider from "./RangeInputSlider";
 import { useSearchParams } from "react-router-dom";
 
+const filterReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD GENRE":
+      return { ...state, genres: [...state.genres, action.input] };
+
+    case "REMOVE GENRE":
+      return {
+        ...state,
+        genres: state.genres.filter((item) => item !== action.input),
+      };
+
+    case "ADD RATING":
+      return {
+        ...state,
+        rating: action.input,
+      };
+
+    case "ADD YEAR":
+      return {
+        ...state,
+        year: action.input,
+      };
+
+    default:
+      return state;
+  }
+};
+
 const Filter = ({ type }) => {
   const [genres, setGenres] = useState([]);
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [isGenresActive, setIsGenresActive] = useState(false);
   const [isRatingActive, setIsRatingActive] = useState(false);
   const [isYearActive, setIsYearActive] = useState(false);
-  const [filtersParams, setFiltersParams] = useState([]);
+  const [filtersParams, setFiltersParams] = useState({});
   const [filterTouched, setFilterTouched] = useState(false);
+  const [testFilters, dispatch] = useReducer(filterReducer, {
+    genres: [],
+    year: null,
+    rating: null,
+  });
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentGenres = type === "movie" ? genres.movieGenres : genres.tvGenres;
 
   const addGenreFilterHandler = (input, callback, callbackParam) => {
-    if (filtersParams.includes(input.toLowerCase())) {
-      const cleanedFilters = filtersParams
-        .filter((item) => item !== input)
-        .map((item) => item.toLowerCase());
+    if (!testFilters.genres.includes(input)) {
+      dispatch({
+        type: "ADD GENRE",
+        input: input,
+      });
+    }
 
-      setFiltersParams(cleanedFilters);
-    } else {
-      setFiltersParams((prevState) => {
-        return [...prevState, input.toLowerCase()];
+    if (testFilters.genres.includes(input)) {
+      dispatch({
+        type: "REMOVE GENRE",
+        input: input,
       });
     }
     callback(!callbackParam);
+  };
+
+  const addRatingFilterHandler = (event, variation) => {
+    if (variation === "year") {
+      dispatch({
+        type: "ADD YEAR",
+        input: +event.target.value,
+      });
+    }
+
+    if (variation === "rating") {
+      dispatch({
+        type: "ADD RATING",
+        input: +event.target.value,
+      });
+    }
   };
 
   // Reset Search Parameters
@@ -60,15 +111,15 @@ const Filter = ({ type }) => {
 
   // Check if user has interacted with filters
   useEffect(() => {
-    if (filtersParams.length > 0) {
+    if (testFilters?.genres?.length > 0) {
       setFilterTouched(true);
-      setSearchParams({ type: type, genre: filtersParams });
+      setSearchParams({ type: type, genre: testFilters.genres });
     }
-    if (filtersParams.length === 0) {
+    if (testFilters.genres.length === 0) {
       setFilterTouched(false);
       setSearchParams({ type: type });
     }
-  }, [filtersParams, setSearchParams]);
+  }, [testFilters.genres, setSearchParams, type]);
 
   return (
     <div className={classes["filter-control"]}>
@@ -126,7 +177,14 @@ const Filter = ({ type }) => {
         />
 
         {isRatingActive && (
-          <RangeInputSlider id="rating-range" type="range" min="1" max="10" />
+          <RangeInputSlider
+            variation="rating"
+            id="rating-range"
+            type="range"
+            min="1"
+            max="10"
+            filterHandler={addRatingFilterHandler}
+          />
         )}
 
         <FilterDivider
@@ -137,10 +195,12 @@ const Filter = ({ type }) => {
 
         {isYearActive && (
           <RangeInputSlider
+            variation="year"
             id="year-range"
             type="range"
             min="1900"
             max={`${new Date().getFullYear()}`}
+            filterHandler={addRatingFilterHandler}
           />
         )}
       </div>
