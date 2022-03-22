@@ -1,0 +1,63 @@
+.filter-control {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+
+  width: 30rem;
+}
+
+.filters-container {
+  /* min-height: 15rem; */
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #171717;
+
+  margin-top: 2rem;
+}
+
+.filter-divider {
+  font-size: 1.6rem;
+  color: #fff;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.089);
+  cursor: pointer;
+}
+
+.filter-divider svg {
+  transition: transform 0.2s ease;
+}
+
+.filter-divider-active svg {
+  transform: rotate(-180deg);
+  transition: transform 0.2s ease;
+}
+
+.filters {
+  color: #fff;
+  font-size: 1.6rem;
+  animation: filter-drop-down 0.3s linear;
+}
+
+@keyframes filter-drop-down {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  100% {
+    max-height: 200rem;
+    opacity: 1;
+  }
+}
+
+.filter-card {
+  width: 75%;
+  margin: 2rem auto;
+  padding: 1.3rem 1rem;
+  background-color: #333333;
+
+  border-radius: 10px;
+
+  box-shadow: 0 0.4rem 0.5rem 0.1rem rgba(0, 0, 0, 0.322);
+}

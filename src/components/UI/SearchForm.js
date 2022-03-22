@@ -1,19 +1,23 @@
 import classes from "./SearchForm.module.css";
+import { useEffect, useState } from "react";
 
 import Button from "./Button";
 import SearchBar from "./SearchBar";
 import RadioButton from "./RadioButton";
-import { useEffect, useState } from "react";
 
 const SearchForm = ({
   searchResults,
   mediaTypeChangeHandler,
-  filterHandler,
   inputChangeHandler,
   onSubmit,
   searchValue,
 }) => {
   const [searchExists, setSearchExists] = useState(false);
+
+  const mediaTypes = [
+    { type: "movie", header: "Movies" },
+    { type: "tv", header: "Tv-Shows" },
+  ];
 
   useEffect(() => {
     if (Object.keys(searchResults).length > 0) setSearchExists(true);
@@ -32,24 +36,22 @@ const SearchForm = ({
         </Button>
       </div>
       <div className={classes["search-types"]}>
-        <RadioButton
-          functionType="change"
-          mediaTypeChangeHandler={mediaTypeChangeHandler}
-          name="type-choice"
-          choice="movie"
-          defaultChecked={true}
-        >
-          Movies
-        </RadioButton>
-        <div className={classes["vertical-line"]}></div>
-        <RadioButton
-          functionType="change"
-          mediaTypeChangeHandler={mediaTypeChangeHandler}
-          name="type-choice"
-          choice="tv"
-        >
-          Tv-shows
-        </RadioButton>
+        {mediaTypes?.map((media) => {
+          return (
+            <RadioButton
+              key={media.type}
+              labelType={"change-type-label"}
+              radioBtnType="change-type-input"
+              functionType="change"
+              mediaTypeChangeHandler={mediaTypeChangeHandler}
+              name="type-choice"
+              choice={media.type}
+              defaultChecked={media.type === "movie"}
+            >
+              {media.header}
+            </RadioButton>
+          );
+        })}
       </div>
     </form>
   );

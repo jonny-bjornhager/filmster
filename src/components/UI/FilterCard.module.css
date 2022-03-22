@@ -1,0 +1,14 @@
+.filter-card {
+  width: 75%;
+  margin: 2rem auto;
+  padding: 1.3rem 1rem;
+  background-color: #333333;
+  border-radius: 10px;
+  box-shadow: 0 0.4rem 0.5rem 0.1rem rgba(0, 0, 0, 0.322);
+  transition: background-color 0.2s ease;
+}
+
+.filter-card:hover {
+  cursor: pointer;
+  background-color: #4b4b4b;
+}

@@ -1,9 +1,9 @@
 import classes from "./Search.module.css";
 
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
-import { fetchGenres } from "../../fetchGenres";
+
 import SearchForm from "../UI/SearchForm";
 import SearchedMedia from "../Layout/SearchedMedia";
 import LoadingSpinner from "../UI/LoadingSpinner";
@@ -11,14 +11,13 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [mediaType, setMediaType] = useState("movie");
-  const [genres, setGenres] = useState([]);
   const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
     searchInput.trim()
   );
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Handle filtering
-  const filterHandler = (event) => {
+  const filterChangeHandler = (event) => {
     const value = event.target.value;
   };
 
@@ -42,41 +41,32 @@ const Search = () => {
     setMediaType(event.target.value);
   };
 
-  useEffect(() => {
-    setSearchParams({ type: mediaType });
-  }, [setSearchParams, mediaType]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetchGenres().then((genres) => {
-      if (isMounted) {
-        setGenres(genres);
-      }
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
   return (
     <section className={classes["search-section"]}>
       <SearchForm
         inputChangeHandler={searchInputChangeHandler}
+        filterChangeHandler={filterChangeHandler}
         searchValue={searchInput}
         onSubmit={onSubmitSearchHandler}
         mediaTypeChangeHandler={mediaTypeChangeHandler}
-        filterHandler={filterHandler}
         searchResults={searchResults}
+        mediaType={mediaType}
       />
       {isLoading && <LoadingSpinner />}
       {!isLoading && searchResults?.movies && mediaType === "movie" && (
-        <SearchedMedia mediaItems={searchResults.movies} errorMsg={errorMsg} />
+        <SearchedMedia
+          mediaItems={searchResults.movies}
+          errorMsg={errorMsg}
+          type={mediaType}
+        />
       )}
 
       {!isLoading && searchResults?.tv_shows && mediaType === "tv" && (
-        <SearchedMedia errorMsg={errorMsg} mediaItems={searchResults.movies} />
+        <SearchedMedia
+          errorMsg={errorMsg}
+          mediaItems={searchResults.tv_shows}
+          type={mediaType}
+        />
       )}
     </section>
   );

@@ -1,4 +1,4 @@
-.radio-label {
+.change-type-label {
   color: #fff;
   background-color: rgb(39, 39, 39);
   font-size: 1.6rem;
@@ -10,7 +10,7 @@
   cursor: pointer;
 }
 
-.radio-input {
+.change-type-input {
   position: absolute;
   appearance: none;
   visibility: hidden;
@@ -19,6 +19,19 @@
   transform: translate(-50%, -50%);
 }
 
-.radio-input:checked + .radio-label {
+.change-type-input:checked + .change-type-label {
   background-color: #c21d1d;
+}
+
+.filter-genres {
+  height: 1.4rem;
+  width: 1.4rem;
+
+  margin: 0 1rem;
+}
+
+.filter-genres-label {
+  color: #fff;
+  background-color: rgb(39, 39, 39);
+  font-size: 1.6rem;
 }

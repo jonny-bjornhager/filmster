@@ -48,6 +48,17 @@
   transition: all 0.3s ease-out;
 }
 
+.btn-filter-open {
+  color: #fff;
+  background-color: #171717;
+  font-size: 1.6rem;
+  display: flex;
+}
+
+.btn-filter-open p {
+  margin-right: 1rem;
+}
+
 @media screen and (max-width: 768px) {
   .btn {
     font-size: 1.6rem;

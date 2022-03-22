@@ -6,23 +6,28 @@ const RadioButton = ({
   name,
   defaultChecked,
   mediaTypeChangeHandler,
-  filterHandler,
+  filterChangeHandler,
   functionType,
+  labelType,
+  radioBtnType,
+  filterValue,
 }) => {
   return (
     <>
       <input
         onClick={
-          functionType === "change" ? mediaTypeChangeHandler : filterHandler
+          functionType === "change"
+            ? mediaTypeChangeHandler
+            : filterChangeHandler
         }
-        className={classes["radio-input"]}
+        className={classes[radioBtnType]}
         name={name}
         id={choice}
         type="radio"
-        value={choice}
+        value={choice ? choice : filterValue}
         defaultChecked={defaultChecked}
       />
-      <label className={classes["radio-label"]} htmlFor={choice}>
+      <label className={classes[labelType]} htmlFor={choice}>
         {children}
       </label>
     </>

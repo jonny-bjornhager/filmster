@@ -1,0 +1,31 @@
+.range-slider-container {
+  padding: 1.3rem 1rem;
+}
+
+.range-slider-container p {
+  color: #fff;
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.range-slider-container input {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  height: 1.6rem;
+  border-radius: 20px;
+
+  appearance: none;
+  background-color: rgba(0, 0, 0, 0.322);
+  cursor: pointer;
+}
+
+.range-slider-container input::-webkit-slider-thumb {
+  appearance: none;
+  background: #c21c1c;
+  height: 1.6rem;
+  width: 1.6rem;
+
+  border-radius: 50%;
+}

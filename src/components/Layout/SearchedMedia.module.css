@@ -1,4 +1,15 @@
 .searched-media-wrapper {
+  margin: 10rem 0;
+}
+
+.filter-media-container {
+  width: 70%;
+  display: flex;
+  align-items: flex-end;
+  margin: 0 auto;
+}
+
+.searched-media-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   grid-auto-rows: 1fr;
@@ -6,7 +17,7 @@
   grid-gap: 2rem;
   width: 70%;
   margin: 0 auto;
-  padding: 10rem 0;
+  padding: 2rem 0;
   animation: searched-fade-in 1s ease;
 }
 
