@@ -47,14 +47,18 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .searched-media-wrapper {
+  .searched-media-results {
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    width: 90%;
+  }
+
+  .filter-media-container {
     width: 90%;
   }
 }
 
 @media screen and (max-width: 280px) {
-  .searched-media-wrapper {
+  .searched-media-results {
     grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   }
 }

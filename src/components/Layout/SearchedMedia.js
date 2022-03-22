@@ -21,17 +21,19 @@ const SearchedMedia = ({ mediaItems, errorMsg, filtered, type }) => {
 
   return (
     <>
-      {itemsNotExist && (
-        <div className={classes["error-box"]}>{emptyOrError}</div>
-      )}
       <div className={classes["searched-media-wrapper"]}>
         <div className={classes["filter-media-container"]}>
-          <Filter
-            filtersOpen={filtersOpen}
-            openFiltersHandler={openFiltersHandler}
-            type={type}
-          />
+          {!itemsNotExist && (
+            <Filter
+              filtersOpen={filtersOpen}
+              openFiltersHandler={openFiltersHandler}
+              type={type}
+            />
+          )}
         </div>
+        {itemsNotExist && (
+          <div className={classes["error-box"]}>{emptyOrError}</div>
+        )}
         <div className={classes["searched-media-results"]}>
           {mediaItems &&
             mediaItems.map((media) => {

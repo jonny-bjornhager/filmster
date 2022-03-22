@@ -2,7 +2,7 @@ import classes from "./RangeInputSlider.module.css";
 import { useState } from "react";
 
 const RangeInputSlider = ({ id, type, min, max }) => {
-  const [rangeSliderNumber, setRangeSliderNumber] = useState("1");
+  const [rangeSliderNumber, setRangeSliderNumber] = useState(min);
 
   const changeHandler = (event) => {
     setRangeSliderNumber(event.target.value);

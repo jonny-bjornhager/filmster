@@ -148,7 +148,7 @@
 
   .nav-links {
     position: fixed;
-    width: 60vw;
+    width: 100%;
     transform: translateX(100%);
     top: 0;
     right: 0;
@@ -157,7 +157,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(3, 3, 3);
+    background-color: rgba(3, 3, 3, 0.767);
+    backdrop-filter: blur(4px);
 
     transition: transform 0.5s ease;
   }
