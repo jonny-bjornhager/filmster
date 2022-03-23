@@ -21,13 +21,12 @@
   transition: all 0.2s ease;
 }
 
-.hidden {
-  opacity: 0;
+.filters-container-hidden {
   height: 0;
 }
 
-.visible {
-  opacity: 1;
+.filters-container-visible {
+  height: fit-content;
 }
 
 .filter-divider {
@@ -50,6 +49,14 @@
 .filters {
   color: #fff;
   font-size: 1.6rem;
+}
+
+.filters-hidden {
+  display: none;
+}
+
+.filters-visible {
+  height: fit-content;
 }
 
 .filter-card {

@@ -45,14 +45,13 @@ const SearchedMedia = ({
           <div className={classes["error-box"]}>{emptyOrError}</div>
         )}
         <div className={classes["searched-media-results"]}>
-          {mediaItems &&
-            mediaItems.map((media) => {
-              return (
-                <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
-                  <PosterCard media={media} />
-                </Link>
-              );
-            })}
+          {mediaItems.map((media) => {
+            return (
+              <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
+                <PosterCard media={media} />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

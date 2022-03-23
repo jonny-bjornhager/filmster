@@ -11,15 +11,15 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const filterReducer = (state, action) => {
   switch (action.type) {
     case "ADD GENRE":
-      return { ...state, genres: [action.input] };
+      return { ...state, genre: [action.input] };
 
     case "APPEND GENRE":
-      return { ...state, genres: [...state.genres, action.input] };
+      return { ...state, genre: [...state.genre, action.input] };
 
     case "REMOVE GENRE":
       return {
         ...state,
-        genres: state.genres.filter((item) => item !== action.input),
+        genre: state.genre.filter((item) => item !== action.input),
       };
 
     case "ADD RATING":
@@ -59,7 +59,7 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchFilters, dispatch] = useReducer(filterReducer, {
     type: mediaType,
-    genres: [],
+    genre: [],
     year: [],
     rating: [],
   });
@@ -85,21 +85,21 @@ const Search = () => {
   };
 
   const genreFilterHandler = (input, callback, callbackParam) => {
-    if (!searchFilters.genres) {
+    if (!searchFilters.genre) {
       dispatch({
         type: "ADD GENRE",
         input: input,
       });
     }
 
-    if (searchFilters.genres) {
+    if (searchFilters.genre) {
       dispatch({
         type: "APPEND GENRE",
         input: input,
       });
     }
 
-    if (searchFilters.genres?.includes(input)) {
+    if (searchFilters.genre?.includes(input)) {
       dispatch({
         type: "REMOVE GENRE",
         input: input,
@@ -171,17 +171,6 @@ const Search = () => {
           errorMsg={errorMsg}
         />
       )}
-
-      {/* {!isLoading && searchResults?.tv_shows && mediaType === "tv" && (
-        <SearchedMedia
-          errorMsg={errorMsg}
-          mediaItems={searchResults.tv_shows}
-          type={mediaType}
-          genreFilterHandler={genreFilterHandler}
-          numberFilterHandler={numberFilterHandler}
-          resetFiltersHandler={resetFiltersHandler}
-        />
-      )} */}
     </section>
   );
 };

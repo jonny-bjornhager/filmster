@@ -29,3 +29,11 @@
 
   border-radius: 50%;
 }
+
+.slider-hidden {
+  display: none;
+}
+
+.slider-visible {
+  display: block;
+}

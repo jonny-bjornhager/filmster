@@ -7,6 +7,7 @@ import { faFilter, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import FilterDivider from "./FilterDivider";
 import FilterCard from "./FilterCard";
 import RangeInputSlider from "./RangeInputSlider";
+import { useSearchParams } from "react-router-dom";
 
 const Filter = ({
   type,
@@ -20,8 +21,33 @@ const Filter = ({
   const [isRatingActive, setIsRatingActive] = useState(false);
   const [isYearActive, setIsYearActive] = useState(false);
   const [filterTouched, setFilterTouched] = useState(false);
+  const [searchParams] = useSearchParams();
 
   const currentGenres = type === "movie" ? genres.movieGenres : genres.tvGenres;
+
+  const genreIsActive = searchParams.getAll("genre").length === 0;
+  const ratingIsActive = searchParams.getAll("rating").length === 0;
+  const yearIsActive = searchParams.getAll("year").length === 0;
+
+  const filtersAreActive = genreIsActive && ratingIsActive && yearIsActive;
+
+  const toggleFiltersOpenHandler = () => {
+    setFilterIsOpen(!filterIsOpen);
+    setIsGenresActive(false);
+    setIsRatingActive(false);
+    setIsYearActive(false);
+  };
+
+  // Check if user has interacted with filters
+  useEffect(() => {
+    if (!filtersAreActive) {
+      setFilterTouched(true);
+    }
+
+    if (filtersAreActive) {
+      setFilterTouched(false);
+    }
+  }, [filtersAreActive]);
 
   // Fetch Genres on Component load
   useEffect(() => {
@@ -38,14 +64,12 @@ const Filter = ({
     };
   }, []);
 
-  // Check if user has interacted with filters
-
   return (
     <div className={classes["filter-control"]}>
       <div className={classes["top-buttons"]}>
         <Button
           style={{ width: "45%" }}
-          onClick={() => setFilterIsOpen(!filterIsOpen)}
+          onClick={toggleFiltersOpenHandler}
           variant="filter-open"
         >
           Filter &nbsp;
@@ -68,8 +92,8 @@ const Filter = ({
       <div
         className={
           filterIsOpen
-            ? `${classes["filters-container"]} ${classes["visible"]}`
-            : `${classes["filters-container"]} ${classes["hidden"]}`
+            ? `${classes["filters-container"]} ${classes["filters-container-visible"]}`
+            : `${classes["filters-container"]} ${classes["filters-container-hidden"]}`
         }
       >
         <FilterDivider
@@ -77,37 +101,42 @@ const Filter = ({
           setIsActive={setIsGenresActive}
           isActive={isGenresActive}
         />
-        {isGenresActive && (
-          <div className={classes["filters"]}>
-            {currentGenres.map((genre) => {
-              return (
-                <FilterCard
-                  onClick={genreFilterHandler}
-                  key={genre.name}
-                  title={genre.name}
-                  isTouched={filterTouched}
-                  setFilterTouched={setFilterTouched}
-                />
-              );
-            })}
-          </div>
-        )}
+
+        <div
+          className={
+            isGenresActive
+              ? `${classes["filters"]} ${classes["filters-visible"]}`
+              : `${classes["filters"]} ${classes["filters-hidden"]}`
+          }
+        >
+          {currentGenres?.map((genre) => {
+            return (
+              <FilterCard
+                genreFilterHandler={genreFilterHandler}
+                key={genre.name}
+                title={genre.name}
+                isTouched={filterTouched}
+                setFilterIsTouched={setFilterTouched}
+              />
+            );
+          })}
+        </div>
+
         <FilterDivider
           name="Rating"
           setIsActive={setIsRatingActive}
           isActive={isRatingActive}
         />
 
-        {isRatingActive && (
-          <RangeInputSlider
-            variation="rating"
-            id="rating-range"
-            type="range"
-            min="1"
-            max="10"
-            filterHandler={numberFilterHandler}
-          />
-        )}
+        <RangeInputSlider
+          variation="rating"
+          id="rating-range"
+          type="range"
+          min="1"
+          max="10"
+          filterHandler={numberFilterHandler}
+          isRatingActive={isRatingActive}
+        />
 
         <FilterDivider
           name="Year"
@@ -115,16 +144,15 @@ const Filter = ({
           isActive={isYearActive}
         />
 
-        {isYearActive && (
-          <RangeInputSlider
-            variation="year"
-            id="year-range"
-            type="range"
-            min="1900"
-            max={`${new Date().getFullYear()}`}
-            filterHandler={numberFilterHandler}
-          />
-        )}
+        <RangeInputSlider
+          variation="year"
+          id="year-range"
+          type="range"
+          min="1900"
+          max={`${new Date().getFullYear()}`}
+          filterHandler={numberFilterHandler}
+          isYearActive={isYearActive}
+        />
       </div>
     </div>
   );

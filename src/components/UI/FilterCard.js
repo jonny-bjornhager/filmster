@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import classes from "./FilterCard.module.css";
 
-const FilterCard = ({
-  title,
-  children,
-  onClick,
-  isTouched,
-  setFilterTouched,
-}) => {
+const FilterCard = ({ title, children, genreFilterHandler, isTouched }) => {
   const [active, setActive] = useState(false);
+
+  const clickHandler = () => {
+    genreFilterHandler(title.toLowerCase(), setActive, active);
+  };
 
   useEffect(() => {
     !isTouched && setActive(false);
@@ -16,9 +14,7 @@ const FilterCard = ({
 
   return (
     <div
-      onClick={() => {
-        onClick(title.toLowerCase(), setActive, active);
-      }}
+      onClick={clickHandler}
       className={
         !active
           ? classes["filter-card"]
