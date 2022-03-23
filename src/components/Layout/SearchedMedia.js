@@ -5,7 +5,14 @@ import PosterCard from "../UI/PosterCard";
 import Filter from "../UI/Filter";
 import { Link } from "react-router-dom";
 
-const SearchedMedia = ({ mediaItems, errorMsg, filtered, type }) => {
+const SearchedMedia = ({
+  mediaItems,
+  errorMsg,
+  type,
+  genreFilterHandler,
+  numberFilterHandler,
+  resetFiltersHandler,
+}) => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const openFiltersHandler = () => {
@@ -28,6 +35,9 @@ const SearchedMedia = ({ mediaItems, errorMsg, filtered, type }) => {
               filtersOpen={filtersOpen}
               openFiltersHandler={openFiltersHandler}
               type={type}
+              genreFilterHandler={genreFilterHandler}
+              numberFilterHandler={numberFilterHandler}
+              resetFiltersHandler={resetFiltersHandler}
             />
           )}
         </div>

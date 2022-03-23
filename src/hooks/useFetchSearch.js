@@ -44,7 +44,7 @@ const transformMediaData = (inputArray, mediaType, genres) => {
 };
 
 export const useFetchSearch = (input) => {
-  const [searchResults, setSearchResults] = useState({});
+  const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -79,10 +79,10 @@ export const useFetchSearch = (input) => {
       const { results: tvResults } = await tvRequest.json();
       const { genres: tvGenresResults } = await tvGenresRequest.json();
 
-      setSearchResults({
-        movies: transformMediaData(movieResults, "movie", movieGenresResults),
-        tv_shows: transformMediaData(tvResults, "tv-show", tvGenresResults),
-      });
+      setSearchResults([
+        transformMediaData(movieResults, "movie", movieGenresResults),
+        transformMediaData(tvResults, "tv-show", tvGenresResults),
+      ]);
     } catch (error) {
       setErrorMsg(`${error.message}: ${error}`);
     }

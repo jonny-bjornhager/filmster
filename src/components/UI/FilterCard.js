@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import classes from "./FilterCard.module.css";
 
-const FilterCard = ({ title, children, onClick, isTouched }) => {
+const FilterCard = ({
+  title,
+  children,
+  onClick,
+  isTouched,
+  setFilterTouched,
+}) => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -10,7 +16,9 @@ const FilterCard = ({ title, children, onClick, isTouched }) => {
 
   return (
     <div
-      onClick={() => onClick(title.toLowerCase(), setActive, active)}
+      onClick={() => {
+        onClick(title.toLowerCase(), setActive, active);
+      }}
       className={
         !active
           ? classes["filter-card"]
