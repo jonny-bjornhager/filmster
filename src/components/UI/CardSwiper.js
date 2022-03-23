@@ -30,7 +30,7 @@ const CardSwiper = ({ type, fetchUrl, inlineStyle }) => {
     }
   }, [type]);
 
-  const linkType = type === "movie" ? "movie" : "tv-show";
+  const linkType = type === "movie" ? "movie" : "tv";
 
   const swiperBreakPoints = {
     280: { slidesPerView: 2, spaceBetween: 10 },
@@ -62,7 +62,6 @@ const CardSwiper = ({ type, fetchUrl, inlineStyle }) => {
               <SwiperSlide key={`scroll-${i}`}>
                 <Link to={`/${linkType}/${movie.id}`}>
                   <div className={classes.scroller}>
-                    {/* <img src={movie?.poster} alt="" /> */}
                     <LazyLoadImage
                       src={movie.poster}
                       effect="blur"
