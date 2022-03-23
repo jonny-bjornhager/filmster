@@ -2,13 +2,18 @@
   width: fit-content;
   display: flex;
   flex-direction: column;
+  width: 70%;
 
-  /* width: 30rem; */
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .top-buttons {
   display: flex;
   justify-content: space-between;
+  width: 30rem;
 }
 
 .filters-container {
@@ -16,8 +21,8 @@
   border-radius: 5px;
   overflow: hidden;
   background-color: #171717;
-  margin-top: 2rem;
 
+  margin-top: 2rem;
   transition: all 0.2s ease;
 }
 

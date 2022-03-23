@@ -1,58 +1,53 @@
 import classes from "./SearchedMedia.module.css";
-import { useState } from "react";
 
 import PosterCard from "../UI/PosterCard";
-import Filter from "../UI/Filter";
+import LoadingSpinner from "../UI/LoadingSpinner";
+
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const SearchedMedia = ({
-  mediaItems,
-  errorMsg,
-  type,
-  genreFilterHandler,
-  numberFilterHandler,
-  resetFiltersHandler,
-}) => {
-  const [filtersOpen, setFiltersOpen] = useState(false);
-
-  const openFiltersHandler = () => {
-    setFiltersOpen(!filtersOpen);
-  };
-
-  const itemsNotExist = mediaItems.length === 0;
+const SearchedMedia = ({ searchResults, errorMsg, type, isLoading }) => {
+  const [currentMedia, setCurrentMedia] = useState(0);
+  const itemsNotExist = searchResults[currentMedia].length === 0;
   const emptyOrError = errorMsg ? (
     <p>{errorMsg}</p>
   ) : (
     <p>We couldn't find anything matching your search, Please try again.</p>
   );
 
+  useEffect(() => {
+    if (type === "movie") {
+      setCurrentMedia(0);
+    }
+
+    if (type === "tv") {
+      setCurrentMedia(1);
+    }
+  }, [type]);
+
   return (
     <>
       <div className={classes["searched-media-wrapper"]}>
-        <div className={classes["filter-media-container"]}>
-          {!itemsNotExist && (
-            <Filter
-              filtersOpen={filtersOpen}
-              openFiltersHandler={openFiltersHandler}
-              type={type}
-              genreFilterHandler={genreFilterHandler}
-              numberFilterHandler={numberFilterHandler}
-              resetFiltersHandler={resetFiltersHandler}
-            />
-          )}
-        </div>
-        {itemsNotExist && (
+        {isLoading && (
+          <div className={classes["spinner-container"]}>
+            <LoadingSpinner />
+          </div>
+        )}
+        {!isLoading && itemsNotExist && (
           <div className={classes["error-box"]}>{emptyOrError}</div>
         )}
-        <div className={classes["searched-media-results"]}>
-          {mediaItems.map((media) => {
-            return (
-              <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
-                <PosterCard media={media} />
-              </Link>
-            );
-          })}
-        </div>
+
+        {!isLoading && (
+          <div className={classes["searched-media-results"]}>
+            {searchResults[currentMedia].map((media) => {
+              return (
+                <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
+                  <PosterCard media={media} />
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );

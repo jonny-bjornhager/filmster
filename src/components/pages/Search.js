@@ -5,8 +5,8 @@ import { useSearchParams } from "react-router-dom";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 
 import SearchForm from "../UI/SearchForm";
+import Filter from "../UI/Filter";
 import SearchedMedia from "../Layout/SearchedMedia";
-import LoadingSpinner from "../UI/LoadingSpinner";
 
 const filterReducer = (state, action) => {
   switch (action.type) {
@@ -63,6 +63,11 @@ const Search = () => {
     year: [],
     rating: [],
   });
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const openFiltersHandler = () => {
+    setFiltersOpen(!filtersOpen);
+  };
 
   // Handle search Input
   const searchInputChangeHandler = (event) => {
@@ -158,19 +163,24 @@ const Search = () => {
         searchResults={searchResults}
         mediaType={mediaType}
       />
-      {isLoading && <LoadingSpinner />}
-      {!isLoading && searchResults.length !== 0 && (
-        <SearchedMedia
-          mediaItems={
-            mediaType === "movie" ? searchResults[0] : searchResults[1]
-          }
+      {searchResults.length !== 0 && (
+        <Filter
+          filtersOpen={filtersOpen}
+          openFiltersHandler={openFiltersHandler}
           type={mediaType}
           genreFilterHandler={genreFilterHandler}
           numberFilterHandler={numberFilterHandler}
           resetFiltersHandler={resetFiltersHandler}
-          errorMsg={errorMsg}
         />
       )}
+
+      <SearchedMedia
+        key={mediaType}
+        isLoading={isLoading}
+        searchResults={searchResults}
+        type={mediaType}
+        errorMsg={errorMsg}
+      />
     </section>
   );
 };
