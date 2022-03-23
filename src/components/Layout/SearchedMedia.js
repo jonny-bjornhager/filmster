@@ -37,17 +37,16 @@ const SearchedMedia = ({ searchResults, errorMsg, type, isLoading }) => {
           <div className={classes["error-box"]}>{emptyOrError}</div>
         )}
 
-        {!isLoading && (
-          <div className={classes["searched-media-results"]}>
-            {searchResults[currentMedia].map((media) => {
+        <div className={classes["searched-media-results"]}>
+          {!isLoading &&
+            searchResults[currentMedia].map((media) => {
               return (
                 <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
                   <PosterCard media={media} />
                 </Link>
               );
             })}
-          </div>
-        )}
+        </div>
       </div>
     </>
   );

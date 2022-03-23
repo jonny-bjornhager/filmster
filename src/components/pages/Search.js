@@ -164,23 +164,24 @@ const Search = () => {
         mediaType={mediaType}
       />
       {searchResults.length !== 0 && (
-        <Filter
-          filtersOpen={filtersOpen}
-          openFiltersHandler={openFiltersHandler}
-          type={mediaType}
-          genreFilterHandler={genreFilterHandler}
-          numberFilterHandler={numberFilterHandler}
-          resetFiltersHandler={resetFiltersHandler}
-        />
+        <>
+          <Filter
+            filtersOpen={filtersOpen}
+            openFiltersHandler={openFiltersHandler}
+            type={mediaType}
+            genreFilterHandler={genreFilterHandler}
+            numberFilterHandler={numberFilterHandler}
+            resetFiltersHandler={resetFiltersHandler}
+          />
+          <SearchedMedia
+            key={mediaType}
+            isLoading={isLoading}
+            searchResults={searchResults}
+            type={mediaType}
+            errorMsg={errorMsg}
+          />
+        </>
       )}
-
-      <SearchedMedia
-        key={mediaType}
-        isLoading={isLoading}
-        searchResults={searchResults}
-        type={mediaType}
-        errorMsg={errorMsg}
-      />
     </section>
   );
 };
