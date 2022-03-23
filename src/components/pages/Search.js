@@ -52,9 +52,11 @@ const filterReducer = (state, action) => {
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [query, setQuery] = useState("");
   const [mediaType, setMediaType] = useState("movie");
   const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
-    searchInput.trim()
+    query,
+    mediaType
   );
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchFilters, dispatch] = useReducer(filterReducer, {
@@ -79,7 +81,8 @@ const Search = () => {
     event.preventDefault();
 
     if (searchInput.trim() === "") return;
-    fetchSearched();
+    setQuery(searchInput.trim());
+
     setSearchInput("");
   };
 
@@ -153,6 +156,12 @@ const Search = () => {
     setSearchParams(searchFilters);
   }, [setSearchParams, searchFilters]);
 
+  useEffect(() => {
+    if (query !== "") {
+      fetchSearched();
+    }
+  }, [query, fetchSearched]);
+
   return (
     <section className={classes["search-section"]}>
       <SearchForm
@@ -168,7 +177,6 @@ const Search = () => {
           <Filter
             filtersOpen={filtersOpen}
             openFiltersHandler={openFiltersHandler}
-            type={mediaType}
             genreFilterHandler={genreFilterHandler}
             numberFilterHandler={numberFilterHandler}
             resetFiltersHandler={resetFiltersHandler}

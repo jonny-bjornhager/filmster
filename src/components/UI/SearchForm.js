@@ -40,6 +40,7 @@ const SearchForm = ({
           return (
             <RadioButton
               key={media.type}
+              value={media.type}
               labelType={"change-type-label"}
               radioBtnType="change-type-input"
               functionType="change"

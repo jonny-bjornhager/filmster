@@ -6,24 +6,13 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const SearchedMedia = ({ searchResults, errorMsg, type, isLoading }) => {
-  const [currentMedia, setCurrentMedia] = useState(0);
-  const itemsNotExist = searchResults[currentMedia].length === 0;
+const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
+  const itemsNotExist = searchResults.length === 0;
   const emptyOrError = errorMsg ? (
     <p>{errorMsg}</p>
   ) : (
     <p>We couldn't find anything matching your search, Please try again.</p>
   );
-
-  useEffect(() => {
-    if (type === "movie") {
-      setCurrentMedia(0);
-    }
-
-    if (type === "tv") {
-      setCurrentMedia(1);
-    }
-  }, [type]);
 
   return (
     <>
@@ -39,7 +28,7 @@ const SearchedMedia = ({ searchResults, errorMsg, type, isLoading }) => {
 
         <div className={classes["searched-media-results"]}>
           {!isLoading &&
-            searchResults[currentMedia].map((media) => {
+            searchResults.map((media) => {
               return (
                 <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
                   <PosterCard media={media} />

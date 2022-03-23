@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="search" element={<Search />} />
         <Route path="movie/:id" element={<MediaInfo type="movie" />} />
-        <Route path="tv-show/:id" element={<MediaInfo type="tv" />} />
+        <Route path="tv/:id" element={<MediaInfo type="tv" />} />
       </Routes>
     </div>
   );

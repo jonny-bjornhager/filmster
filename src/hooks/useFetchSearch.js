@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 /* Transforms the given array of
 movies or tv-shows to it's expected format */
@@ -25,7 +25,7 @@ const transformMediaData = (inputArray, mediaType, genres) => {
     return movieData;
   }
 
-  if (mediaType === "tv-show") {
+  if (mediaType === "tv") {
     const tvData = inputHasProperties.map((item) => {
       return {
         id: item.id,
@@ -43,52 +43,37 @@ const transformMediaData = (inputArray, mediaType, genres) => {
   }
 };
 
-export const useFetchSearch = (input) => {
+export const useFetchSearch = (input, type) => {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
 
   // Fetches searched Movies
-  const fetchSearched = async () => {
+  const fetchSearched = useCallback(async () => {
     setIsLoading(true);
 
     try {
-      const moviesRequest = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
+      const mediaRequest = await fetch(
+        `https://api.themoviedb.org/3/search/${type}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
+      );
+      const mediaGenresRequest = await fetch(
+        `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
 
-      const tvRequest = await fetch(
-        `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${input}&page=1&include_adult=false`
-      );
-
-      const movieGenresRequest = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-      );
-
-      const tvGenresRequest = await fetch(
-        `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-      );
-
-      if (!moviesRequest.ok || !tvRequest.ok) {
+      if (!mediaRequest.ok || !mediaGenresRequest.ok) {
         throw new Error("Something went wrong. Try again with another search.");
       }
 
-      const { results: movieResults } = await moviesRequest.json();
-      const { genres: movieGenresResults } = await movieGenresRequest.json();
+      const { results } = await mediaRequest.json();
+      const { genres } = await mediaGenresRequest.json();
 
-      const { results: tvResults } = await tvRequest.json();
-      const { genres: tvGenresResults } = await tvGenresRequest.json();
-
-      setSearchResults([
-        transformMediaData(movieResults, "movie", movieGenresResults),
-        transformMediaData(tvResults, "tv-show", tvGenresResults),
-      ]);
+      setSearchResults(transformMediaData(results, type, genres));
     } catch (error) {
       setErrorMsg(`${error.message}: ${error}`);
     }
 
     setIsLoading(false);
-  };
+  }, [input, type]);
 
   return {
     searchResults,
