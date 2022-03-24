@@ -6,8 +6,6 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import { Link } from "react-router-dom";
 
 const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
-  console.log(errorMsg);
-
   return (
     <>
       <div className={classes["searched-media-wrapper"]}>

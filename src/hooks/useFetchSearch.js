@@ -5,7 +5,9 @@ movies or tv-shows to it's expected format */
 const transformMediaData = (inputArray, mediaType, genres) => {
   const inputHasProperties = inputArray.filter(
     (item) =>
-      item.poster_path && item.vote_average !== 0 && item.backdrop_path !== null
+      item.poster_path !== null &&
+      item.vote_average !== 0 &&
+      item.backdrop_path !== null
   );
 
   if (mediaType === "movie") {
@@ -67,19 +69,17 @@ export const useFetchSearch = (input, type) => {
       const { results } = await mediaRequest.json();
       const { genres } = await mediaGenresRequest.json();
 
-      if (results.length === 0) {
-        throw new Error(
-          `Couldn't find any ${
-            type === "movie" ? "movies" : "tv-shows"
-          } matching "${input}".`
-        );
-      }
+      const transformedData = transformMediaData(results, type, genres);
 
-      if (results.length !== 0) {
+      if (transformedData.length !== 0) {
         setErrorMsg(null);
       }
 
-      setSearchResults(transformMediaData(results, type, genres));
+      if (transformedData.length === 0) {
+        throw new Error(`No search matching "${input}".`);
+      }
+
+      setSearchResults(transformedData);
     } catch (error) {
       setErrorMsg(`${error.message}`);
     }

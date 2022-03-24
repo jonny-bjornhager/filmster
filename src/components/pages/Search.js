@@ -172,24 +172,22 @@ const Search = () => {
         searchResults={searchResults}
         mediaType={mediaType}
       />
-      {searchResults.length !== 0 && (
-        <>
-          <Filter
-            filtersOpen={filtersOpen}
-            openFiltersHandler={openFiltersHandler}
-            genreFilterHandler={genreFilterHandler}
-            numberFilterHandler={numberFilterHandler}
-            resetFiltersHandler={resetFiltersHandler}
-          />
-          <SearchedMedia
-            key={mediaType}
-            isLoading={isLoading}
-            searchResults={searchResults}
-            type={mediaType}
-            errorMsg={errorMsg}
-          />
-        </>
+      {searchResults.length !== 0 && !errorMsg && (
+        <Filter
+          filtersOpen={filtersOpen}
+          openFiltersHandler={openFiltersHandler}
+          genreFilterHandler={genreFilterHandler}
+          numberFilterHandler={numberFilterHandler}
+          resetFiltersHandler={resetFiltersHandler}
+        />
       )}
+      <SearchedMedia
+        key={mediaType}
+        isLoading={isLoading}
+        searchResults={searchResults}
+        type={mediaType}
+        errorMsg={errorMsg}
+      />
     </section>
   );
 };
