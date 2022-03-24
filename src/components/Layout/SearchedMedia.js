@@ -4,15 +4,9 @@ import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
-  const itemsNotExist = searchResults.length === 0;
-  const emptyOrError = errorMsg ? (
-    <p>{errorMsg}</p>
-  ) : (
-    <p>We couldn't find anything matching your search, Please try again.</p>
-  );
+  console.log(errorMsg);
 
   return (
     <>
@@ -22,20 +16,23 @@ const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
             <LoadingSpinner />
           </div>
         )}
-        {!isLoading && itemsNotExist && (
-          <div className={classes["error-box"]}>{emptyOrError}</div>
+        {!isLoading && errorMsg && (
+          <div className={classes["error-box"]}>
+            <p>{errorMsg}</p>
+          </div>
         )}
 
-        <div className={classes["searched-media-results"]}>
-          {!isLoading &&
-            searchResults.map((media) => {
+        {!isLoading && !errorMsg && (
+          <div className={classes["searched-media-results"]}>
+            {searchResults.map((media) => {
               return (
                 <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
                   <PosterCard media={media} />
                 </Link>
               );
             })}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

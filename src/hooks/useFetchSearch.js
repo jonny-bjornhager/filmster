@@ -60,24 +60,34 @@ export const useFetchSearch = (input, type) => {
         `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
 
-      if (!mediaRequest.ok || !mediaGenresRequest.ok) {
+      if (!mediaRequest.ok) {
         throw new Error("Something went wrong. Try again with another search.");
       }
 
       const { results } = await mediaRequest.json();
       const { genres } = await mediaGenresRequest.json();
 
+      if (results.length === 0) {
+        throw new Error(
+          `Couldn't find any ${
+            type === "movie" ? "movies" : "tv-shows"
+          } matching "${input}".`
+        );
+      }
+
+      if (results.length !== 0) {
+        setErrorMsg(null);
+      }
+
       setSearchResults(transformMediaData(results, type, genres));
     } catch (error) {
-      setErrorMsg(`${error.message}: ${error}`);
+      setErrorMsg(`${error.message}`);
     }
-
     setIsLoading(false);
-  }, [input, type]);
+  }, [type, input]);
 
   return {
     searchResults,
-
     fetchSearched,
     isLoading,
     errorMsg,

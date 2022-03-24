@@ -6,15 +6,10 @@ import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faStar,
-  faChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faStar } from "@fortawesome/free-solid-svg-icons";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LoadingSpinner from "../UI/LoadingSpinner";
-import Button from "../UI/Button";
 
 const MediaInfo = ({ type }) => {
   const { id } = useParams();
