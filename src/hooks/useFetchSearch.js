@@ -20,7 +20,9 @@ const transformMediaData = (inputArray, mediaType, genres) => {
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
-        genres: genres.filter((genre) => item.genre_ids.includes(genre.id)),
+        genres: genres
+          .filter((genre) => item.genre_ids.includes(genre.id))
+          .map((genre) => genre.name.toLowerCase()),
       };
     });
 
@@ -37,7 +39,9 @@ const transformMediaData = (inputArray, mediaType, genres) => {
         poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
-        genres: genres.filter((genre) => item.genre_ids.includes(genre.id)),
+        genres: genres
+          .filter((genre) => item.genre_ids.includes(genre.id))
+          .map((genre) => genre.name.toLowerCase()),
       };
     });
 

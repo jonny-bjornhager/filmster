@@ -1,6 +1,6 @@
 import classes from "./Search.module.css";
 
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 
@@ -66,6 +66,7 @@ const Search = () => {
     rating: [],
   });
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtered, setFiltered] = useState([]);
 
   const openFiltersHandler = () => {
     setFiltersOpen(!filtersOpen);
@@ -138,12 +139,12 @@ const Search = () => {
   };
 
   // Handles the RESET of search filters
-  const resetFiltersHandler = () => {
+  const resetFiltersHandler = useCallback(() => {
     dispatch({
       type: "RESET",
       input: mediaType,
     });
-  };
+  }, [mediaType]);
 
   useEffect(() => {
     dispatch({
@@ -162,6 +163,23 @@ const Search = () => {
     }
   }, [query, fetchSearched]);
 
+  useEffect(() => {
+    const filterChangeHandler = () => {
+      const genreParams = searchParams.getAll("genre");
+      const items = searchResults.map((item) => item);
+      const filtered = items.filter((item) =>
+        item.genres.some((item) => genreParams.includes(item))
+      );
+      setFiltered(filtered);
+    };
+
+    filterChangeHandler();
+  }, [searchResults, searchParams]);
+
+  useEffect(() => {
+    resetFiltersHandler();
+  }, [mediaType, resetFiltersHandler]);
+
   return (
     <section className={classes["search-section"]}>
       <SearchForm
@@ -179,12 +197,13 @@ const Search = () => {
           genreFilterHandler={genreFilterHandler}
           numberFilterHandler={numberFilterHandler}
           resetFiltersHandler={resetFiltersHandler}
+          type={mediaType}
         />
       )}
       <SearchedMedia
         key={mediaType}
         isLoading={isLoading}
-        searchResults={searchResults}
+        searchResults={filtered.length > 0 ? filtered : searchResults}
         type={mediaType}
         errorMsg={errorMsg}
       />
