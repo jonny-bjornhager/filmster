@@ -10,6 +10,13 @@ import SearchedMedia from "../Layout/SearchedMedia";
 
 const filterReducer = (state, action) => {
   switch (action.type) {
+    case "MOVIE":
+      return { ...state, type: action.input };
+
+    case "TV": {
+      return { ...state, type: action.input };
+    }
+
     case "ADD GENRE":
       return { ...state, genre: [action.input] };
 
@@ -22,16 +29,40 @@ const filterReducer = (state, action) => {
         genre: state.genre.filter((item) => item !== action.input),
       };
 
-    case "ADD RATING":
+    case "RATING ASCENDING":
       return {
         ...state,
-        rating: action.input,
+        rating: [action.input],
       };
 
-    case "ADD YEAR":
+    case "RATING DESCENDING":
       return {
         ...state,
-        year: action.input,
+        rating: [action.input],
+      };
+
+    case "REMOVE RATING":
+      return {
+        ...state,
+        rating: state.rating.filter((item) => item !== action.input),
+      };
+
+    case "YEAR ASCENDING":
+      return {
+        ...state,
+        year: [action.input],
+      };
+
+    case "YEAR DESCENDING":
+      return {
+        ...state,
+        year: [action.input],
+      };
+
+    case "REMOVE YEAR":
+      return {
+        ...state,
+        year: state.year.filter((item) => item !== action.input),
       };
 
     case "CHANGE TYPE":
@@ -53,20 +84,20 @@ const filterReducer = (state, action) => {
 const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [query, setQuery] = useState("");
-  const [mediaType, setMediaType] = useState("movie");
-  const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
-    query,
-    mediaType
-  );
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchFilters, dispatch] = useReducer(filterReducer, {
-    type: mediaType,
+    type: "movie",
     genre: [],
     year: [],
     rating: [],
   });
+  const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
+    query,
+    searchFilters.type
+  );
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filtered, setFiltered] = useState([]);
+  const [filterTouched, setFilterTouched] = useState(false);
 
   const openFiltersHandler = () => {
     setFiltersOpen(!filtersOpen);
@@ -87,10 +118,23 @@ const Search = () => {
     setSearchInput("");
   };
 
-  // Handles change of searched media type
+  // Change media type filter
   const mediaTypeChangeHandler = (event) => {
-    if (mediaType === event.target.value) return;
-    setMediaType(event.target.value);
+    if (searchFilters.type === event.target.value) return;
+
+    if (event.target.value === "movie") {
+      dispatch({
+        type: "MOVIE",
+        input: event.target.value,
+      });
+    }
+
+    if (event.target.value === "tv") {
+      dispatch({
+        type: "TV",
+        input: event.target.value,
+      });
+    }
   };
 
   const genreFilterHandler = (input, callback, callbackParam) => {
@@ -117,41 +161,67 @@ const Search = () => {
 
     /* This callback reaches out to the component
     that it's beeing passed to in order do get the 
-    text inside the container the use clicked*/
+    text inside the container the user clicked*/
     callback(!callbackParam);
   };
 
-  // Handles the changing of Number filtering (YEAR, RATING)
-  const numberFilterHandler = (event, variation) => {
-    if (variation === "year") {
+  // Filter by Rating
+  const ratingFilterHandler = (event, callback, callbackParam) => {
+    if (event === "ascending") {
       dispatch({
-        type: "ADD YEAR",
-        input: +event.target.value,
+        type: "RATING ASCENDING",
+        input: event,
       });
     }
 
-    if (variation === "rating") {
+    if (event === "descending") {
       dispatch({
-        type: "ADD RATING",
-        input: +event.target.value,
+        type: "RATING DESCENDING",
+        input: event,
       });
     }
+
+    if (searchFilters.rating?.includes(event)) {
+      dispatch({
+        type: "REMOVE RATING",
+        input: event,
+      });
+    }
+    callback(!callbackParam);
   };
 
-  // Handles the RESET of search filters
+  // Filter by year
+  const yearFilterHandler = (event, callback, callbackParam) => {
+    if (event === "ascending") {
+      dispatch({
+        type: "YEAR ASCENDING",
+        input: event,
+      });
+    }
+
+    if (event === "descending") {
+      dispatch({
+        type: "YEAR DESCENDING",
+        input: event,
+      });
+    }
+
+    if (searchFilters.year?.includes(event)) {
+      dispatch({
+        type: "REMOVE YEAR",
+        input: event,
+      });
+    }
+    callback(!callbackParam);
+  };
+
+  // Reset search filters
   const resetFiltersHandler = useCallback(() => {
     dispatch({
       type: "RESET",
-      input: mediaType,
+      input: searchFilters.type,
     });
-  }, [mediaType]);
-
-  useEffect(() => {
-    dispatch({
-      type: "CHANGE TYPE",
-      input: mediaType,
-    });
-  }, [mediaType]);
+  }, [searchFilters.type]);
 
   useEffect(() => {
     setSearchParams(searchFilters);
@@ -170,6 +240,7 @@ const Search = () => {
       const filtered = items.filter((item) =>
         item.genres.some((item) => genreParams.includes(item))
       );
+
       setFiltered(filtered);
     };
 
@@ -178,7 +249,7 @@ const Search = () => {
 
   useEffect(() => {
     resetFiltersHandler();
-  }, [mediaType, resetFiltersHandler]);
+  }, [searchFilters.type, resetFiltersHandler]);
 
   return (
     <section className={classes["search-section"]}>
@@ -188,24 +259,29 @@ const Search = () => {
         onSubmit={onSubmitSearchHandler}
         mediaTypeChangeHandler={mediaTypeChangeHandler}
         searchResults={searchResults}
-        mediaType={mediaType}
+        mediaType={searchFilters.type}
       />
       {searchResults.length !== 0 && !errorMsg && (
         <Filter
+          filterTouched={filterTouched}
+          setFilterTouched={setFilterTouched}
           filtersOpen={filtersOpen}
           openFiltersHandler={openFiltersHandler}
           genreFilterHandler={genreFilterHandler}
-          numberFilterHandler={numberFilterHandler}
+          ratingFilterHandler={ratingFilterHandler}
+          yearFilterHandler={yearFilterHandler}
           resetFiltersHandler={resetFiltersHandler}
-          type={mediaType}
+          type={searchFilters.type}
         />
       )}
       <SearchedMedia
-        key={mediaType}
+        key={searchFilters.type}
         isLoading={isLoading}
-        searchResults={filtered.length > 0 ? filtered : searchResults}
-        type={mediaType}
+        searchResults={filterTouched ? filtered : searchResults}
+        type={searchFilters.type}
         errorMsg={errorMsg}
+        filtered={filtered}
+        filterTouched={filterTouched}
       />
     </section>
   );

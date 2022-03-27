@@ -5,7 +5,20 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 
 import { Link } from "react-router-dom";
 
-const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
+const SearchedMedia = ({
+  searchResults,
+  errorMsg,
+  isLoading,
+  filtered,
+  filterTouched,
+}) => {
+  const noMatchingFilter =
+    !isLoading &&
+    !errorMsg &&
+    filterTouched &&
+    searchResults.length !== 0 &&
+    filtered.length === 0;
+
   return (
     <>
       <div className={classes["searched-media-wrapper"]}>
@@ -15,8 +28,14 @@ const SearchedMedia = ({ searchResults, errorMsg, isLoading }) => {
           </div>
         )}
         {!isLoading && errorMsg && (
-          <div className={classes["error-box"]}>
+          <div className={classes["msg-box"]}>
             <p>{errorMsg}</p>
+          </div>
+        )}
+
+        {noMatchingFilter && (
+          <div className={classes["msg-box"]}>
+            <p>No match for current filter.</p>
           </div>
         )}
 

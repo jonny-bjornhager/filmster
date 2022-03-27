@@ -75,6 +75,24 @@
   box-shadow: 0 0.4rem 0.5rem 0.1rem rgba(0, 0, 0, 0.322);
 }
 
+.rating-container {
+  position: relative;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.horizontal-line__transparent {
+  width: 100%;
+  height: 5px;
+}
+
 @media screen and (max-width: 1024px) {
   .filter-control {
     width: min(40rem, 70%);

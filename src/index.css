@@ -27,3 +27,7 @@ body::-webkit-scrollbar-thumb {
   background-color: rgba(169, 169, 169, 0.445);
   border-radius: 5px;
 }
+
+.vertical-line {
+  width: 5px;
+}

@@ -10,6 +10,18 @@
   cursor: pointer;
 }
 
+.change-rating-label {
+  color: #fff;
+  background-color: rgb(39, 39, 39);
+  font-size: 1.6rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+
+  cursor: pointer;
+}
+
 .change-type-input {
   position: absolute;
   appearance: none;
@@ -19,7 +31,17 @@
   transform: translate(-50%, -50%);
 }
 
-.change-type-input:checked + .change-type-label {
+.change-type-input {
+  position: absolute;
+  appearance: none;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.change-type-input:checked + .change-type-label,
+.change-type-input:checked + .change-rating-label {
   background-color: #c21d1d;
 }
 

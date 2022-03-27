@@ -6,21 +6,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import FilterDivider from "./FilterDivider";
 import FilterCard from "./FilterCard";
-import RangeInputSlider from "./RangeInputSlider";
+
 import { useSearchParams } from "react-router-dom";
 
 const Filter = ({
   type,
   genreFilterHandler,
-  numberFilterHandler,
+  ratingFilterHandler,
+  yearFilterHandler,
   resetFiltersHandler,
+  filterTouched,
+  setFilterTouched,
 }) => {
   const [genres, setGenres] = useState([]);
-  const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [isGenresActive, setIsGenresActive] = useState(false);
   const [isRatingActive, setIsRatingActive] = useState(false);
   const [isYearActive, setIsYearActive] = useState(false);
-  const [filterTouched, setFilterTouched] = useState(false);
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [searchParams] = useSearchParams();
 
   const currentGenres = type === "movie" ? genres.movieGenres : genres.tvGenres;
@@ -31,6 +33,7 @@ const Filter = ({
 
   const filtersAreActive = genreIsActive && ratingIsActive && yearIsActive;
 
+  // Toggles if the filter panel is open or closed
   const toggleFiltersOpenHandler = () => {
     setFilterIsOpen(!filterIsOpen);
     setIsGenresActive(false);
@@ -47,7 +50,7 @@ const Filter = ({
     if (filtersAreActive) {
       setFilterTouched(false);
     }
-  }, [filtersAreActive]);
+  }, [filtersAreActive, setFilterTouched]);
 
   // Fetch Genres on Component load
   useEffect(() => {
@@ -112,7 +115,7 @@ const Filter = ({
           {currentGenres?.map((genre) => {
             return (
               <FilterCard
-                genreFilterHandler={genreFilterHandler}
+                filterHandler={genreFilterHandler}
                 key={genre.name}
                 title={genre.name}
                 isTouched={filterTouched}
@@ -128,31 +131,56 @@ const Filter = ({
           isActive={isRatingActive}
         />
 
-        <RangeInputSlider
-          variation="rating"
-          id="rating-range"
-          type="range"
-          min="1"
-          max="10"
-          filterHandler={numberFilterHandler}
-          isRatingActive={isRatingActive}
-        />
+        <div
+          className={
+            isRatingActive
+              ? `${classes["filters"]} ${classes["filters-visible"]}`
+              : `${classes["filters"]} ${classes["filters-hidden"]}`
+          }
+        >
+          <FilterCard
+            filterHandler={ratingFilterHandler}
+            key={"Ascending"}
+            title={"Ascending"}
+            isTouched={filterTouched}
+            setFilterIsTouched={setFilterTouched}
+          />
 
+          <FilterCard
+            filterHandler={ratingFilterHandler}
+            key={"Descending"}
+            title={"Descending"}
+            isTouched={filterTouched}
+            setFilterIsTouched={setFilterTouched}
+          />
+        </div>
         <FilterDivider
           name="Year"
           setIsActive={setIsYearActive}
           isActive={isYearActive}
         />
-
-        <RangeInputSlider
-          variation="year"
-          id="year-range"
-          type="range"
-          min="1900"
-          max={`${new Date().getFullYear()}`}
-          filterHandler={numberFilterHandler}
-          isYearActive={isYearActive}
-        />
+        <div
+          className={
+            isYearActive
+              ? `${classes["filters"]} ${classes["filters-visible"]}`
+              : `${classes["filters"]} ${classes["filters-hidden"]}`
+          }
+        >
+          <FilterCard
+            filterHandler={yearFilterHandler}
+            key={"Ascending"}
+            title={"Ascending"}
+            isTouched={filterTouched}
+            setFilterIsTouched={setFilterTouched}
+          />
+          <FilterCard
+            filterHandler={yearFilterHandler}
+            key={"Descending"}
+            title={"Descending"}
+            isTouched={filterTouched}
+            setFilterIsTouched={setFilterTouched}
+          />
+        </div>
       </div>
     </div>
   );
