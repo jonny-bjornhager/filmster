@@ -71,6 +71,13 @@ const filterReducer = (state, action) => {
         type: action.input,
       };
 
+    case "FILTER": {
+      return {
+        ...state,
+        filtered: action.input,
+      };
+    }
+
     case "RESET":
       return {
         type: action.input,
@@ -90,13 +97,13 @@ const Search = () => {
     genre: [],
     year: [],
     rating: [],
+    filtered: [],
   });
   const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
     query,
     searchFilters.type
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [filtered, setFiltered] = useState([]);
   const [filterTouched, setFilterTouched] = useState(false);
 
   const openFiltersHandler = () => {
@@ -117,6 +124,18 @@ const Search = () => {
 
     setSearchInput("");
   };
+
+  const filterChangeHandler = useCallback(() => {
+    const items = searchResults.map((item) => item);
+    const filtered = items.filter((item) =>
+      item.genres.some((item) => searchFilters.genre?.includes(item))
+    );
+
+    dispatch({
+      type: "FILTER",
+      input: filtered,
+    });
+  }, [searchResults, searchFilters.genre]);
 
   // Change media type filter
   const mediaTypeChangeHandler = (event) => {
@@ -218,14 +237,13 @@ const Search = () => {
   // Reset search filters
   const resetFiltersHandler = useCallback(() => {
     dispatch({
-      type: "RESET",
-      input: searchFilters.type,
+      type: "movie",
+      genre: [],
+      year: [],
+      rating: [],
+      filtered: [],
     });
-  }, [searchFilters.type]);
-
-  useEffect(() => {
-    setSearchParams(searchFilters);
-  }, [setSearchParams, searchFilters]);
+  }, []);
 
   useEffect(() => {
     if (query !== "") {
@@ -234,22 +252,25 @@ const Search = () => {
   }, [query, fetchSearched]);
 
   useEffect(() => {
-    const filterChangeHandler = () => {
-      const genreParams = searchParams.getAll("genre");
-      const items = searchResults.map((item) => item);
-      const filtered = items.filter((item) =>
-        item.genres.some((item) => genreParams.includes(item))
-      );
-
-      setFiltered(filtered);
-    };
-
     filterChangeHandler();
-  }, [searchResults, searchParams]);
+  }, [filterChangeHandler]);
 
   useEffect(() => {
     resetFiltersHandler();
   }, [searchFilters.type, resetFiltersHandler]);
+
+  useEffect(() => {
+    for (const key in searchFilters) {
+      if (
+        searchFilters[key] !== searchFilters.type &&
+        searchFilters[key].length > 0
+      ) {
+        setFilterTouched(true);
+        return;
+      }
+    }
+    setFilterTouched(false);
+  }, [searchFilters]);
 
   return (
     <section className={classes["search-section"]}>
@@ -277,10 +298,10 @@ const Search = () => {
       <SearchedMedia
         key={searchFilters.type}
         isLoading={isLoading}
-        searchResults={filterTouched ? filtered : searchResults}
+        searchResults={filterTouched ? searchFilters.filtered : searchResults}
         type={searchFilters.type}
         errorMsg={errorMsg}
-        filtered={filtered}
+        filtered={searchFilters.filtered}
         filterTouched={filterTouched}
       />
     </section>
