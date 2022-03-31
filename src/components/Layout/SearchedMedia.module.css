@@ -10,6 +10,10 @@
   animation: searched-fade-in 1s ease;
 }
 
+.searched-media-wrapper {
+  padding-bottom: 5rem;
+}
+
 @keyframes searched-fade-in {
   0% {
     transform: translateY(0.5rem);

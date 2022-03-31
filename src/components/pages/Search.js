@@ -1,7 +1,6 @@
 import classes from "./Search.module.css";
 
 import { useEffect, useState, useReducer, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
 
 import SearchForm from "../UI/SearchForm";
@@ -89,9 +88,9 @@ const filterReducer = (state, action) => {
 };
 
 const Search = () => {
+  const [currentPage, setCurrentPage] = useState("2");
   const [searchInput, setSearchInput] = useState("");
   const [query, setQuery] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
   const [searchFilters, dispatch] = useReducer(filterReducer, {
     type: "movie",
     genre: [],
@@ -99,10 +98,14 @@ const Search = () => {
     rating: [],
     filtered: [],
   });
-  const { searchResults, fetchSearched, isLoading, errorMsg } = useFetchSearch(
-    query,
-    searchFilters.type
-  );
+  const {
+    searchResults,
+    fetchSearched,
+    isLoading,
+    errorMsg,
+    fetchMore,
+    scrollIsLoading,
+  } = useFetchSearch(query, searchFilters.type);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterTouched, setFilterTouched] = useState(false);
 
@@ -302,6 +305,7 @@ const Search = () => {
         errorMsg={errorMsg}
         filtered={searchFilters.filtered}
         filterTouched={filterTouched}
+        fetchMoreHandler={fetchMore}
       />
     </section>
   );

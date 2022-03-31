@@ -2,11 +2,12 @@ import classes from "./SearchedMedia.module.css";
 
 import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import Button from "../UI/Button";
 
 import { useInView } from "react-intersection-observer";
 
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 const SearchedMedia = ({
   searchResults,
@@ -14,11 +15,12 @@ const SearchedMedia = ({
   isLoading,
   filtered,
   filterTouched,
-  ref,
+  fetchMoreHandler,
 }) => {
   const { ref: mediaRef, inView: mediaIsVisible } = useInView({
     threshold: 1,
   });
+  const [pageNum, setPageNum] = useState(1);
 
   const noMatchingFilter =
     !isLoading &&
@@ -28,8 +30,13 @@ const SearchedMedia = ({
     filtered.length === 0;
 
   useEffect(() => {
-    console.log(mediaIsVisible);
-  }, [mediaIsVisible]);
+    if (pageNum === 1) return;
+    fetchMoreHandler(pageNum);
+  }, [pageNum, fetchMoreHandler]);
+
+  const loadMore = () => {
+    setPageNum((prevPageNum) => prevPageNum + 1);
+  };
 
   return (
     <>
@@ -52,7 +59,7 @@ const SearchedMedia = ({
         )}
 
         {!isLoading && !errorMsg && searchResults.length > 0 && (
-          <div ref={mediaRef} className={classes["searched-media-results"]}>
+          <div className={classes["searched-media-results"]}>
             {searchResults.map((media) => {
               return (
                 <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
@@ -61,6 +68,15 @@ const SearchedMedia = ({
               );
             })}
           </div>
+        )}
+        {!isLoading && !errorMsg && searchResults.length > 0 && (
+          <Button
+            style={{ margin: "0 auto", display: "block" }}
+            variant="red"
+            onClick={loadMore}
+          >
+            Load more
+          </Button>
         )}
       </div>
     </>
