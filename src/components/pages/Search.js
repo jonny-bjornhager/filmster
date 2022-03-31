@@ -260,16 +260,15 @@ const Search = () => {
   }, [searchFilters.type, resetFiltersHandler]);
 
   useEffect(() => {
-    for (const key in searchFilters) {
-      if (
-        searchFilters[key] !== searchFilters.type &&
-        searchFilters[key].length > 0
-      ) {
-        setFilterTouched(true);
-        return;
-      }
+    if (
+      searchFilters.genre?.length !== 0 ||
+      searchFilters.year?.length !== 0 ||
+      searchFilters.rating?.length !== 0
+    ) {
+      setFilterTouched(true);
+    } else {
+      setFilterTouched(false);
     }
-    setFilterTouched(false);
   }, [searchFilters]);
 
   return (

@@ -3,7 +3,10 @@ import classes from "./SearchedMedia.module.css";
 import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
+import { useInView } from "react-intersection-observer";
+
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 const SearchedMedia = ({
   searchResults,
@@ -11,13 +14,22 @@ const SearchedMedia = ({
   isLoading,
   filtered,
   filterTouched,
+  ref,
 }) => {
+  const { ref: mediaRef, inView: mediaIsVisible } = useInView({
+    threshold: 1,
+  });
+
   const noMatchingFilter =
     !isLoading &&
     !errorMsg &&
     filterTouched &&
     searchResults.length !== 0 &&
     filtered.length === 0;
+
+  useEffect(() => {
+    console.log(mediaIsVisible);
+  }, [mediaIsVisible]);
 
   return (
     <>
@@ -39,8 +51,8 @@ const SearchedMedia = ({
           </div>
         )}
 
-        {!isLoading && !errorMsg && (
-          <div className={classes["searched-media-results"]}>
+        {!isLoading && !errorMsg && searchResults.length > 0 && (
+          <div ref={mediaRef} className={classes["searched-media-results"]}>
             {searchResults.map((media) => {
               return (
                 <Link key={media.id} to={`/${media.mediaType}/${media.id}`}>
