@@ -28,6 +28,15 @@ body::-webkit-scrollbar-thumb {
   border-radius: 5px;
 }
 
+body::-moz-scrollbar {
+  width: 1.5rem;
+}
+
+body::-moz-scrollbar-thumb {
+  background-color: rgba(169, 169, 169, 0.445);
+  border-radius: 5px;
+}
+
 .vertical-line {
   width: 5px;
 }
