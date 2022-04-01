@@ -1,13 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-
-// Checks for duplicate names in an array of objects
-const removeCreditsDuplicate = (inputArray) => {
-  return inputArray.filter(
-    (value, index, self) =>
-      index ===
-      self.findIndex((t) => t.place === value.place && t.name === value.name)
-  );
-};
+import removeDuplicate from "../removeDuplicateItem";
 
 // Gets the trailers for either a Tv-Show or Movie
 const getTrailer = (inputArray) => {
@@ -79,7 +71,7 @@ export const useFetchSingleMedia = (id, type) => {
       });
 
       // Remove duplicates in the cast array
-      const cast = removeCreditsDuplicate(castData);
+      const cast = removeDuplicate(castData, "name");
 
       // Sort cast based on popularity
       const popularCast = response.credits.cast
@@ -105,7 +97,7 @@ export const useFetchSingleMedia = (id, type) => {
         : null;
 
       // Remove duplicates in the crew array
-      const crew = removeCreditsDuplicate(crewData);
+      const crew = removeDuplicate(crewData, "name");
 
       const directed_by = response.credits.crew
         .filter((member) => member.job === "Director")

@@ -1,31 +1,22 @@
 import { useState, useCallback } from "react";
-
-const removeDuplicate = (inputArray) => {
-  return inputArray.filter(
-    (value, index, self) =>
-      index ===
-      self.findIndex((t) => t.place === value.place && t.id === value.id)
-  );
-};
+import removeDuplicate from "../removeDuplicateItem";
 
 /* Transforms the given array of
 movies or tv-shows to it's expected format */
 const transformMediaData = (inputArray, mediaType, genres) => {
-  const inputHasProperties = inputArray.filter(
-    (item) =>
-      item.vote_average !== 0 &&
-      item.backdrop_path !== null &&
-      item.poster_path !== null
-  );
-
   if (mediaType === "movie") {
-    const movieData = inputHasProperties.map((item) => {
+    const movieData = inputArray.map((item) => {
       return {
         id: item.id,
         title: item.original_title,
         rating: item.vote_average,
-        year: new Date(item.release_date).getFullYear(),
-        poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+        year: !item.release_date
+          ? " "
+          : `${new Date(item.release_date).getFullYear()}`,
+        poster:
+          item.poster_path === null
+            ? "https://i.ibb.co/LSQTBd4/poster-unavailable.png"
+            : `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
         genres: genres
@@ -38,13 +29,18 @@ const transformMediaData = (inputArray, mediaType, genres) => {
   }
 
   if (mediaType === "tv") {
-    const tvData = inputHasProperties.map((item) => {
+    const tvData = inputArray.map((item) => {
       return {
         id: item.id,
         title: item.original_name,
         rating: item.vote_average,
-        year: new Date(item.first_air_date).getFullYear() || "",
-        poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+        year: !item.first_air_date
+          ? " "
+          : `${new Date(item.first_air_date).getFullYear()}`,
+        poster:
+          item.poster_path === null
+            ? "https://i.ibb.co/LSQTBd4/poster-unavailable.png"
+            : `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
         genres: genres
@@ -82,6 +78,8 @@ export const useFetchSearch = (input, type) => {
 
       const { results } = await mediaRequest.json();
       const { genres } = await mediaGenresRequest.json();
+
+      console.log(results);
 
       const transformedData = transformMediaData(results, type, genres);
 
@@ -129,7 +127,7 @@ export const useFetchSearch = (input, type) => {
         // }
 
         setSearchResults((prevMedia) =>
-          removeDuplicate([...prevMedia, ...transformedData])
+          removeDuplicate([...prevMedia, ...transformedData], "id")
         );
       } catch (error) {
         setErrorMsg(`${error.message}`);
