@@ -16,7 +16,7 @@ const transformMediaData = (inputArray, mediaType, genres) => {
         poster:
           item.poster_path === null
             ? "https://i.ibb.co/LSQTBd4/poster-unavailable.png"
-            : `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+            : `https://image.tmdb.org/t/p/w342/${item.poster_path}`,
         poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
         mediaType,
         genres: genres

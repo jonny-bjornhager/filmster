@@ -1,3 +1,7 @@
+.searched-media-wrapper {
+  padding-bottom: 5rem;
+}
+
 .searched-media-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
@@ -10,10 +14,6 @@
   animation: searched-fade-in 1s ease;
 }
 
-.searched-media-wrapper {
-  padding-bottom: 5rem;
-}
-
 @keyframes searched-fade-in {
   0% {
     transform: translateY(0.5rem);
@@ -21,7 +21,7 @@
   }
 }
 
-.searched-media-wrapper a {
+.searched-media-results a {
   text-decoration: none;
 }
 
