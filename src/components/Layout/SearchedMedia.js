@@ -4,8 +4,6 @@ import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import Button from "../UI/Button";
 
-import { useInView } from "react-intersection-observer";
-
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -16,10 +14,8 @@ const SearchedMedia = ({
   filtered,
   filterTouched,
   fetchMoreHandler,
+  fetchMoreIsLoading,
 }) => {
-  const { ref: mediaRef, inView: mediaIsVisible } = useInView({
-    threshold: 1,
-  });
   const [pageNum, setPageNum] = useState(1);
 
   const noMatchingFilter =
@@ -70,13 +66,18 @@ const SearchedMedia = ({
           </div>
         )}
         {!isLoading && !errorMsg && searchResults.length > 0 && (
-          <Button
-            style={{ margin: "0 auto", display: "block" }}
-            variant="red"
-            onClick={loadMore}
-          >
-            Load more
-          </Button>
+          <div className={classes["load-more-container"]}>
+            {fetchMoreIsLoading && <LoadingSpinner />}
+            {!fetchMoreIsLoading && (
+              <Button
+                style={{ margin: "0 auto", display: "block" }}
+                variant="red"
+                onClick={loadMore}
+              >
+                Load more
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </>

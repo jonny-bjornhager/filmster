@@ -2,93 +2,13 @@ import classes from "./Search.module.css";
 
 import { useEffect, useState, useReducer, useCallback } from "react";
 import { useFetchSearch } from "../../hooks/useFetchSearch";
+import filterReducer from "../../filterReducer";
 
 import SearchForm from "../UI/SearchForm";
 import Filter from "../UI/Filter";
 import SearchedMedia from "../Layout/SearchedMedia";
 
-const filterReducer = (state, action) => {
-  switch (action.type) {
-    case "MOVIE":
-      return { ...state, type: action.input };
-
-    case "TV": {
-      return { ...state, type: action.input };
-    }
-
-    case "ADD GENRE":
-      return { ...state, genre: [action.input] };
-
-    case "APPEND GENRE":
-      return { ...state, genre: [...state.genre, action.input] };
-
-    case "REMOVE GENRE":
-      return {
-        ...state,
-        genre: state.genre.filter((item) => item !== action.input),
-      };
-
-    case "RATING ASCENDING":
-      return {
-        ...state,
-        rating: [action.input],
-      };
-
-    case "RATING DESCENDING":
-      return {
-        ...state,
-        rating: [action.input],
-      };
-
-    case "REMOVE RATING":
-      return {
-        ...state,
-        rating: state.rating.filter((item) => item !== action.input),
-      };
-
-    case "YEAR ASCENDING":
-      return {
-        ...state,
-        year: [action.input],
-      };
-
-    case "YEAR DESCENDING":
-      return {
-        ...state,
-        year: [action.input],
-      };
-
-    case "REMOVE YEAR":
-      return {
-        ...state,
-        year: state.year.filter((item) => item !== action.input),
-      };
-
-    case "CHANGE TYPE":
-      return {
-        ...state,
-        type: action.input,
-      };
-
-    case "FILTER": {
-      return {
-        ...state,
-        filtered: action.input,
-      };
-    }
-
-    case "RESET":
-      return {
-        type: action.input,
-      };
-
-    default:
-      return state;
-  }
-};
-
 const Search = () => {
-  const [currentPage, setCurrentPage] = useState("2");
   const [searchInput, setSearchInput] = useState("");
   const [query, setQuery] = useState("");
   const [searchFilters, dispatch] = useReducer(filterReducer, {
@@ -104,7 +24,7 @@ const Search = () => {
     isLoading,
     errorMsg,
     fetchMore,
-    scrollIsLoading,
+    fetchMoreIsLoading,
   } = useFetchSearch(query, searchFilters.type);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterTouched, setFilterTouched] = useState(false);
@@ -306,6 +226,7 @@ const Search = () => {
         filtered={searchFilters.filtered}
         filterTouched={filterTouched}
         fetchMoreHandler={fetchMore}
+        fetchMoreIsLoading={fetchMoreIsLoading}
       />
     </section>
   );

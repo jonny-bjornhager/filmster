@@ -40,9 +40,12 @@
   transform: translate(-50%, -50%);
 }
 
-.change-type-input:checked + .change-type-label,
-.change-type-input:checked + .change-rating-label {
+.change-type-input:checked + .change-type-label {
   background-color: #c21d1d;
+}
+
+.change-type-input:checked + .change-type-label:hover {
+  background-color: #c21d1d9f;
 }
 
 .filter-genres {

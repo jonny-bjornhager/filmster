@@ -40,11 +40,10 @@ const SearchForm = ({
           return (
             <RadioButton
               key={media.type}
+              onClick={mediaTypeChangeHandler}
               value={media.type}
               labelType={"change-type-label"}
               radioBtnType="change-type-input"
-              functionType="change"
-              mediaTypeChangeHandler={mediaTypeChangeHandler}
               name="type-choice"
               choice={media.type}
               defaultChecked={media.type === "movie"}

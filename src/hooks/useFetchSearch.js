@@ -58,7 +58,7 @@ export const useFetchSearch = (input, type) => {
   const [isLoading, setIsLoading] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [hasFetched, setHasFetched] = useState(false);
-  const [scrollIsLoading, setScrollIsLoading] = useState(null);
+  const [fetchMoreIsLoading, setFetchMoreIsLoading] = useState(null);
 
   // Fetches searched Movies
   const fetchSearched = useCallback(async () => {
@@ -100,7 +100,7 @@ export const useFetchSearch = (input, type) => {
 
   const fetchMore = useCallback(
     async (num) => {
-      setScrollIsLoading(true);
+      setFetchMoreIsLoading(true);
 
       try {
         const request = await fetch(
@@ -133,7 +133,7 @@ export const useFetchSearch = (input, type) => {
         setErrorMsg(`${error.message}`);
       }
 
-      setScrollIsLoading(false);
+      setFetchMoreIsLoading(false);
       setHasFetched(true);
     },
     [input, type]
@@ -146,6 +146,6 @@ export const useFetchSearch = (input, type) => {
     errorMsg,
     fetchMore,
     hasFetched,
-    // scrollIsLoading,
+    fetchMoreIsLoading,
   };
 };

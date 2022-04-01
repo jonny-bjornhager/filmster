@@ -1,13 +1,11 @@
 import classes from "./RadioButton.module.css";
 
 const RadioButton = ({
+  onClick,
   choice,
   children,
   name,
   defaultChecked,
-  mediaTypeChangeHandler,
-  filterChangeHandler,
-  functionType,
   labelType,
   radioBtnType,
   filterValue,
@@ -15,11 +13,7 @@ const RadioButton = ({
   return (
     <>
       <input
-        onClick={
-          functionType === "change"
-            ? mediaTypeChangeHandler
-            : filterChangeHandler
-        }
+        onClick={onClick}
         className={classes[radioBtnType]}
         name={name}
         id={choice}
