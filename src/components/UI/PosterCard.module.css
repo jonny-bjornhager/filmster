@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.poster-card:hover {
+  transform: scale(1.01);
+}
+
 .poster-card img {
   border-radius: 20px;
   width: 100%;
