@@ -1,12 +1,10 @@
 .searchBar {
-  flex: 1;
   border: none;
   outline: none;
   border-radius: 5px;
   background-color: rgb(29, 29, 29);
 
   font-size: 2rem;
-  margin-right: 1rem;
   padding: 0.4em 1rem;
   color: #757575;
   transition: all 0.3s ease;
@@ -20,10 +18,4 @@
 
 .searchBar::placeholder {
   color: rgb(99, 99, 99);
-}
-
-@media screen and (max-width: 1024px) {
-  .searchBar {
-    margin: 0;
-  }
 }
