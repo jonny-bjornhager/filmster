@@ -4,7 +4,7 @@ import Trailer from "../UI/Trailer";
 
 import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStar } from "@fortawesome/free-solid-svg-icons";
 import "react-lazy-load-image-component/src/effects/blur.css";

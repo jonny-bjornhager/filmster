@@ -1,6 +1,19 @@
 .poster-card {
   display: flex;
   flex-direction: column;
+  animation: fade-in 0.5s ease;
+}
+
+@keyframes fade-in {
+  0% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .poster-card:hover {

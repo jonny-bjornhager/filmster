@@ -29,43 +29,26 @@
 }
 
 .btn-red {
+  background-color: #c21c1c81;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-red-light {
   background-color: #c21c1c;
   color: white;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 
-.btn-red:hover {
-  background-color: #c21d1d9f;
+.btn-red:hover,
+.btn-red-light:hover {
+  background-color: #c21d1dcc;
 }
 
-.btn-search-category {
-  background-color: rgb(43, 43, 43);
-
-  background-size: 210% 100%;
-  background-position: right bottom;
-  color: white;
-  font-size: 3rem;
-  padding: 0.4em;
-  width: 50%;
-
-  border-radius: 3px;
-  transition: all 0.3s ease-out;
-}
-
-.btn-filter-open {
-  color: #fff;
-  background-color: #171717;
-  font-size: 1.6rem;
-  display: flex;
-}
-
-.btn-filter-open p {
-  margin-right: 1rem;
-}
-
-.btn:disabled {
-  background-color: #272727;
+.btn-red:disabled {
+  background-color: #c21c1c;
   cursor: not-allowed;
 }
 
