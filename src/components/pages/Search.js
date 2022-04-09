@@ -1,14 +1,49 @@
 import classes from "./Search.module.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useReducer } from "react";
 import { Link } from "react-router-dom";
-import useFetchSearch from "../../hooks/useFetchSearch";
 import { useInView } from "react-intersection-observer";
+import { filterTypes } from "../../filterTypes";
+import useFetchSearch from "../../hooks/useFetchSearch";
+import useInfiniteScrolling from "../../hooks/useInfiniteScrolling";
 
 import SearchBar from "../UI/SearchBar";
 import Button from "../UI/Button";
 import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
+
+const filterReducer = (state, action) => {
+  switch (action.type) {
+    case filterTypes.RATING_ASC:
+      return {
+        ...state,
+        rating: "Ascending",
+        filtered: [...action.input].sort((a, b) => b.rating - a.rating),
+      };
+
+    case filterTypes.RATING_DESC:
+      return {
+        ...state,
+        rating: "Descending",
+        filtered: [...action.input].sort((a, b) => a.rating - b.rating),
+      };
+
+    case filterTypes.YEAR_ASC:
+      return { ...state, year: filterTypes.YEAR_ASC };
+
+    case filterTypes.YEAR_DESC:
+      return { ...state, year: filterTypes.YEAR_DESC };
+
+    case filterTypes.GENRES_ADD:
+      return { ...state, genres: [action.input] };
+
+    case filterTypes.ADD_FILTERED:
+      return { ...state, filtered: action.input };
+
+    default:
+      return state;
+  }
+};
 
 const Search = () => {
   const { ref: myRef, inView: bottomIsVisible } = useInView({
@@ -19,48 +54,67 @@ const Search = () => {
   const [typeActive, setTypeActive] = useState(true);
   const [type, setType] = useState("movie");
   const [currentPage, setCurrentPage] = useState(1);
+  const [filters, dispatch] = useReducer(filterReducer, {
+    rating: null,
+    year: null,
+    genres: [],
+    filtered: [],
+  });
 
-  const {
-    fetchSearch,
-    isLoading,
-    fetchMoreIsLoading,
-    fetchOnScroll,
-    totalPages,
-    searchResults,
-    msg,
-  } = useFetchSearch(type, searchInput.toLowerCase().trim(), currentPage);
+  const { fetchSearch, isLoading, totalPages, searchResults, msg } =
+    useFetchSearch(type, searchInput, currentPage);
+  const { getItems, items, scrollIsLoading } = useInfiniteScrolling(
+    type,
+    searchInput,
+    currentPage
+  );
 
+  const isAtLastPage = currentPage === totalPages;
+
+  // Handles changes on search bar
   const inputChangeHandler = (event) => {
     if (event.target.value.trim() === "") setCurrentPage(1);
     setSearchInput(event.target.value);
   };
 
+  // Changes media type to active when button is clicked
   const typeChangeHandler = (event) => {
     setType(event.target.innerText.toLowerCase());
     setCurrentPage(1);
     setTypeActive(!typeActive);
   };
 
+  // Increments the page count when user scrolls down
   const incrementPageCountHandler = useCallback(() => {
-    if (currentPage === totalPages) return;
+    // if (currentPage === totalPages) return;
     setCurrentPage((current) => current + 1);
-  }, [currentPage, totalPages]);
+  }, []);
 
   useEffect(() => {
     fetchSearch();
   }, [fetchSearch, searchInput, type]);
 
   useEffect(() => {
-    if (bottomIsVisible) {
+    if (bottomIsVisible && isAtLastPage) return;
+    if (bottomIsVisible && scrollIsLoading) {
       incrementPageCountHandler();
+      return;
     }
-  }, [bottomIsVisible, incrementPageCountHandler]);
+  }, [
+    bottomIsVisible,
+    incrementPageCountHandler,
+    isAtLastPage,
+    scrollIsLoading,
+  ]);
 
   useEffect(() => {
-    if (bottomIsVisible) {
-      fetchOnScroll();
-    }
-  }, [fetchOnScroll, bottomIsVisible, currentPage, totalPages]);
+    if (isAtLastPage) return;
+    if (bottomIsVisible) getItems();
+  }, [bottomIsVisible, getItems, isAtLastPage]);
+
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
 
   return (
     <section className={classes["search-section"]}>
@@ -87,6 +141,8 @@ const Search = () => {
             <span>Tv</span>
           </Button>
         </div>
+        <Button variant="red">Ascending</Button>
+        <Button variant="red">Descending</Button>
       </div>
 
       <div className={classes["msg-box"]}>
@@ -108,16 +164,18 @@ const Search = () => {
               </Link>
             );
           })}
+        {items.length > 0 &&
+          items.map((media) => {
+            return (
+              <Link key={media.id} to={`/${type}/${media.id}`}>
+                <PosterCard media={media} />
+              </Link>
+            );
+          })}
+        {!isLoading && !scrollIsLoading && searchResults.length >= 20 && (
+          <div className={classes["observer-div"]} ref={myRef}></div>
+        )}
       </div>
-      {fetchMoreIsLoading && (
-        <div className={classes["fetch-more-loader"]}>
-          <LoadingSpinner />
-        </div>
-      )}
-
-      {!isLoading && !fetchMoreIsLoading && searchResults.length >= 20 && (
-        <div className={classes["observer-div"]} ref={myRef}></div>
-      )}
     </section>
   );
 };

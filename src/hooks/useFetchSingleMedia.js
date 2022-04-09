@@ -46,6 +46,7 @@ export const useFetchSingleMedia = (id, type) => {
       }
 
       const response = await request.json();
+      console.log(response);
 
       const collection = response.belongs_to_collection
         ? {
@@ -139,7 +140,7 @@ export const useFetchSingleMedia = (id, type) => {
         released: response.realease_date ? response.realease_date : null,
         trailerUrl: trailer,
         overview: response.overview,
-        original_language: response.spoken_languages[0].english_name,
+        original_language: response.original_language,
         popular_cast: popularCast.slice(0, 5).join(", "),
         rating: response.vote_average,
       };
