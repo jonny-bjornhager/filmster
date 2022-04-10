@@ -1,9 +1,8 @@
 import classes from "./Search.module.css";
 
-import { useCallback, useEffect, useState, useReducer } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import { filterTypes } from "../../filterTypes";
 import useFetchSearch from "../../hooks/useFetchSearch";
 import useInfiniteScrolling from "../../hooks/useInfiniteScrolling";
 
@@ -11,39 +10,6 @@ import SearchBar from "../UI/SearchBar";
 import Button from "../UI/Button";
 import PosterCard from "../UI/PosterCard";
 import LoadingSpinner from "../UI/LoadingSpinner";
-
-const filterReducer = (state, action) => {
-  switch (action.type) {
-    case filterTypes.RATING_ASC:
-      return {
-        ...state,
-        rating: "Ascending",
-        filtered: [...action.input].sort((a, b) => b.rating - a.rating),
-      };
-
-    case filterTypes.RATING_DESC:
-      return {
-        ...state,
-        rating: "Descending",
-        filtered: [...action.input].sort((a, b) => a.rating - b.rating),
-      };
-
-    case filterTypes.YEAR_ASC:
-      return { ...state, year: filterTypes.YEAR_ASC };
-
-    case filterTypes.YEAR_DESC:
-      return { ...state, year: filterTypes.YEAR_DESC };
-
-    case filterTypes.GENRES_ADD:
-      return { ...state, genres: [action.input] };
-
-    case filterTypes.ADD_FILTERED:
-      return { ...state, filtered: action.input };
-
-    default:
-      return state;
-  }
-};
 
 const Search = () => {
   const { ref: myRef, inView: bottomIsVisible } = useInView({
@@ -54,12 +20,6 @@ const Search = () => {
   const [typeActive, setTypeActive] = useState(true);
   const [type, setType] = useState("movie");
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, dispatch] = useReducer(filterReducer, {
-    rating: null,
-    year: null,
-    genres: [],
-    filtered: [],
-  });
 
   const { fetchSearch, isLoading, totalPages, searchResults, msg } =
     useFetchSearch(type, searchInput, currentPage);
@@ -70,6 +30,11 @@ const Search = () => {
   );
 
   const isAtLastPage = currentPage === totalPages;
+  const shouldGetMore =
+    !isLoading &&
+    !scrollIsLoading &&
+    searchResults.length >= 20 &&
+    !isAtLastPage;
 
   // Handles changes on search bar
   const inputChangeHandler = (event) => {
@@ -96,6 +61,7 @@ const Search = () => {
 
   useEffect(() => {
     if (bottomIsVisible && isAtLastPage) return;
+    if (bottomIsVisible && !scrollIsLoading) getItems();
     if (bottomIsVisible && scrollIsLoading) {
       incrementPageCountHandler();
       return;
@@ -105,16 +71,13 @@ const Search = () => {
     incrementPageCountHandler,
     isAtLastPage,
     scrollIsLoading,
+    getItems,
   ]);
 
-  useEffect(() => {
-    if (isAtLastPage) return;
-    if (bottomIsVisible) getItems();
-  }, [bottomIsVisible, getItems, isAtLastPage]);
-
-  useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   if (isAtLastPage) return;
+  //   if (bottomIsVisible) getItems();
+  // }, [bottomIsVisible, getItems, isAtLastPage]);
 
   return (
     <section className={classes["search-section"]}>
@@ -172,7 +135,7 @@ const Search = () => {
               </Link>
             );
           })}
-        {!isLoading && !scrollIsLoading && searchResults.length >= 20 && (
+        {shouldGetMore && (
           <div className={classes["observer-div"]} ref={myRef}></div>
         )}
       </div>
