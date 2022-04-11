@@ -1,8 +1,11 @@
 import classes from "./SearchBar.module.css";
 
-const SearchBar = ({ searchValue, inputChangeHandler }) => {
+import { forwardRef } from "react";
+
+const SearchBar = ({ searchValue, inputChangeHandler }, ref) => {
   return (
     <input
+      ref={ref}
       className={classes.searchBar}
       type="text"
       placeholder="Search for something..."
@@ -12,4 +15,6 @@ const SearchBar = ({ searchValue, inputChangeHandler }) => {
   );
 };
 
-export default SearchBar;
+const forwardInput = forwardRef(SearchBar);
+
+export default forwardInput;

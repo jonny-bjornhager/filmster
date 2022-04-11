@@ -1,6 +1,6 @@
 import classes from "./Search.module.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import useFetchSearch from "../../hooks/useFetchSearch";
@@ -14,6 +14,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 const Search = () => {
   const { ref: myRef, inView: bottomIsVisible } = useInView({
     threshold: 1,
+    rootMargin: "10px",
   });
 
   const [searchInput, setSearchInput] = useState("");
@@ -36,10 +37,13 @@ const Search = () => {
     searchResults.length >= 20 &&
     !isAtLastPage;
 
+  const inputRef = useRef();
+
   // Handles changes on search bar
   const inputChangeHandler = (event) => {
     if (event.target.value.trim() === "") setCurrentPage(1);
-    setSearchInput(event.target.value);
+
+    setSearchInput(inputRef.current.value);
   };
 
   // Changes media type to active when button is clicked
@@ -51,7 +55,6 @@ const Search = () => {
 
   // Increments the page count when user scrolls down
   const incrementPageCountHandler = useCallback(() => {
-    // if (currentPage === totalPages) return;
     setCurrentPage((current) => current + 1);
   }, []);
 
@@ -74,17 +77,13 @@ const Search = () => {
     getItems,
   ]);
 
-  // useEffect(() => {
-  //   if (isAtLastPage) return;
-  //   if (bottomIsVisible) getItems();
-  // }, [bottomIsVisible, getItems, isAtLastPage]);
-
   return (
     <section className={classes["search-section"]}>
       <div className={classes["search-elements-container"]}>
         <SearchBar
           inputChangeHandler={inputChangeHandler}
           searchValue={searchInput}
+          ref={inputRef}
         />
         <div className={classes["type-btns"]}>
           <Button
@@ -104,8 +103,6 @@ const Search = () => {
             <span>Tv</span>
           </Button>
         </div>
-        <Button variant="red">Ascending</Button>
-        <Button variant="red">Descending</Button>
       </div>
 
       <div className={classes["msg-box"]}>
