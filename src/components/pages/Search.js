@@ -27,8 +27,10 @@ const Search = () => {
   const { getItems, items, scrollIsLoading } = useInfiniteScrolling(
     type,
     searchInput,
-    currentPage
+    currentPage,
+    searchResults
   );
+  console.log(searchResults);
 
   const isAtLastPage = currentPage === totalPages;
   const shouldGetMore =
@@ -61,6 +63,10 @@ const Search = () => {
   useEffect(() => {
     fetchSearch();
   }, [fetchSearch, searchInput, type]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchResults]);
 
   useEffect(() => {
     if (bottomIsVisible && isAtLastPage) return;

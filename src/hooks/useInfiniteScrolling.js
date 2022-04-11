@@ -1,9 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { searchUrl } from "../api_urls";
 import removeDuplicateItem from "../removeDuplicateItem";
 import transformMediaData from "../transFormMediaData";
 
-const useInfiniteScrolling = (type, query, page) => {
+const useInfiniteScrolling = (type, query, page, searchResults) => {
   const [items, setItems] = useState([]);
   const [scrollIsLoading, setScrollIsLoading] = useState(false);
 
@@ -36,6 +36,10 @@ const useInfiniteScrolling = (type, query, page) => {
 
     setScrollIsLoading(false);
   }, [type, query, page]);
+
+  useEffect(() => {
+    setItems([]);
+  }, [searchResults]);
 
   return {
     getItems,
