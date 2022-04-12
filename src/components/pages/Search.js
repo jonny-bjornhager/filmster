@@ -30,7 +30,6 @@ const Search = () => {
     currentPage,
     searchResults
   );
-  console.log(searchResults);
 
   const isAtLastPage = currentPage === totalPages;
   const shouldGetMore =

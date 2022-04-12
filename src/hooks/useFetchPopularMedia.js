@@ -29,7 +29,7 @@ export const useFetchPopularMedia = (url) => {
             title: item["original_title"] || item["original_name"],
             backdrop: `https://image.tmdb.org/t/p/original/${item.backdrop_path}`,
             backdrop_placeholder: `https://image.tmdb.org/t/p/w300/${item.backdrop_path}`,
-            poster: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+            poster: `https://image.tmdb.org/t/p/w342/${item.poster_path}`,
             poster_placeholder: `https://image.tmdb.org/t/p/w92/${item.poster_path}`,
             overview: item.overview,
             genres: item.genre_ids,

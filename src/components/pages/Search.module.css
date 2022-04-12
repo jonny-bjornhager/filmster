@@ -54,7 +54,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 
-  grid-gap: 1.6rem;
+  grid-column-gap: 1.6rem;
+  grid-row-gap: 5rem;
   width: 70%;
   margin-left: auto;
   margin-right: auto;
