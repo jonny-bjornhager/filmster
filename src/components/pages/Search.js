@@ -69,11 +69,9 @@ const Search = () => {
 
   useEffect(() => {
     if (bottomIsVisible && isAtLastPage) return;
+    if (bottomIsVisible && scrollIsLoading) incrementPageCountHandler();
+
     if (bottomIsVisible && !scrollIsLoading) getItems();
-    if (bottomIsVisible && scrollIsLoading) {
-      incrementPageCountHandler();
-      return;
-    }
   }, [
     bottomIsVisible,
     incrementPageCountHandler,

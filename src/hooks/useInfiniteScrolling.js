@@ -17,7 +17,7 @@ const useInfiniteScrolling = (type, query, page, searchResults) => {
           process.env.REACT_APP_API_KEY
         }&language=en-US&query=${query
           .toLowerCase()
-          .trim()}&include_adult=false&page=${page}`
+          .trim()}&include_adult=false&page=${page + 1}`
       );
 
       if (!request.ok) {
