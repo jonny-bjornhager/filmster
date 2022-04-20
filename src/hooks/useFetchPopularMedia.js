@@ -5,7 +5,7 @@ export const useFetchPopularMedia = (url) => {
   const [isLoading, setIsLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  //  Fetch popular movies or shows from the
+  //  Fetch popular media from the
   // url given to the hook
   const fetchPopular = useCallback(async () => {
     setIsLoading(true);
@@ -19,8 +19,8 @@ export const useFetchPopularMedia = (url) => {
 
       const { results } = await request.json();
 
-      // Filter movies that has no backdrop and map
-      // through movies array
+      // Filter mediathat has no backdrop and map
+      // through media array
       return results
         .filter((item) => item.backdrop_path !== null)
         .map((item) => {

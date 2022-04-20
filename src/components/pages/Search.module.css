@@ -69,11 +69,10 @@
 
 .observer-div {
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   left: 50%;
   transform: translateX(-50%);
   height: 10px;
-  background-color: blue;
   width: 50px;
 }
 
