@@ -1,6 +1,7 @@
 import classes from "../Pages/MediaInfo.module.css";
 import Modal from "../UI/Modal";
 import Trailer from "../UI/Trailer";
+import PageNotFound from "./PageNotFound";
 
 import { useState } from "react";
 import { useFetchSingleMedia } from "../../hooks/useFetchSingleMedia";
@@ -21,13 +22,7 @@ const MediaInfo = ({ type }) => {
     setModalOpen(!modalOpen);
   };
 
-  if (errorMessage)
-    return (
-      <div className={classes.error}>
-        <p>{`${errorMessage}`}</p>
-        <p>Maybe try again with a different resource?</p>
-      </div>
-    );
+  if (errorMessage) return <PageNotFound message={errorMessage} />;
 
   return (
     <>
