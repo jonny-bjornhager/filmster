@@ -1,5 +1,7 @@
 import classes from "./PageNotFound.module.css";
 
+// 404 page
+
 const PageNotFound = ({ message }) => {
   return (
     <div className={classes["page-not-found"]}>
